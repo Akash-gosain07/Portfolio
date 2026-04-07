@@ -1,26 +1,649 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-top: #0f0c29;
+  --bg-mid: #302b63;
+  --bg-bottom: #24243e;
+  --panel: rgba(12, 16, 40, 0.72);
+  --panel-border: rgba(157, 185, 255, 0.22);
+  --text-main: #f8fbff;
+  --text-soft: rgba(233, 241, 255, 0.78);
+  --cyan: #68f5ff;
+  --magenta: #ff5fe6;
+  --gold: #ffd76f;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  overflow: hidden;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), sans-serif;
+  color: var(--text-main);
+  background:
+    radial-gradient(circle at top, rgba(120, 115, 255, 0.2), transparent 36%),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg-mid) 50%, var(--bg-bottom) 100%);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+a,
+canvas {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.portfolio-page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(89, 209, 255, 0.16), transparent 28%),
+    radial-gradient(circle at 80% 30%, rgba(184, 108, 255, 0.2), transparent 22%),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg-mid) 45%, var(--bg-bottom) 100%);
+}
+
+.portfolio-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+}
+
+.portfolio-overlay {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  pointer-events: none;
+}
+
+.portfolio-overlay > * {
+  pointer-events: auto;
+}
+
+.hud-top,
+.hud-bottom,
+.panel-shell,
+.loading-screen,
+.intro-screen,
+.checkpoint-rail {
+  position: fixed;
+  z-index: 3;
+}
+
+.hud-top {
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.brand-chip,
+.guide-card,
+.panel,
+.rail-card,
+.progress-card,
+.summary-card,
+.loading-card,
+.intro-card {
+  backdrop-filter: blur(20px);
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+}
+
+.brand-chip {
+  padding: 16px 18px;
+  border-radius: 18px;
+  max-width: 520px;
+}
+
+.brand-chip p,
+.guide-card p,
+.rail-card p,
+.summary-card p,
+.panel p,
+.progress-card p {
+  margin: 0;
+  color: var(--text-soft);
+}
+
+.eyebrow {
+  display: inline-flex;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(104, 245, 255, 0.14);
+  color: var(--cyan);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.brand-chip h1,
+.intro-card h1,
+.panel h2,
+.panel h3,
+.guide-card strong,
+.loading-card strong {
+  font-family: var(--font-display), sans-serif;
+  letter-spacing: 0.04em;
+}
+
+.brand-chip h1 {
+  margin: 10px 0 8px;
+  font-size: clamp(1.8rem, 3vw, 3rem);
+}
+
+.brand-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.brand-links a,
+.intro-actions a,
+.intro-actions button,
+.panel-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-main);
+  font-weight: 600;
+  transition:
+    transform 160ms ease,
+    background 160ms ease,
+    border-color 160ms ease;
+}
+
+.brand-links a:hover,
+.intro-actions a:hover,
+.intro-actions button:hover,
+.panel-actions a:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.26);
+}
+
+.brand-links a.primary,
+.intro-actions .primary,
+.panel-actions a.primary {
+  background: linear-gradient(135deg, rgba(104, 245, 255, 0.28), rgba(162, 107, 255, 0.26));
+  border-color: rgba(104, 245, 255, 0.3);
+}
+
+.guide-card {
+  padding: 14px 18px;
+  border-radius: 18px;
+  min-width: 280px;
+  max-width: 360px;
+}
+
+.guide-card strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 1rem;
+}
+
+.panel-shell {
+  left: 20px;
+  top: 160px;
+  bottom: 112px;
+  width: min(460px, calc(100vw - 40px));
+  max-width: calc(100vw - 40px);
+}
+
+.panel {
+  border-radius: 24px;
+  padding: 24px;
+  animation: rise 420ms ease;
+  height: 100%;
+  overflow: auto;
+}
+
+.panel h2 {
+  margin: 10px 0 10px;
+  font-size: 1.7rem;
+}
+
+.panel-heading {
+  margin-bottom: 18px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.panel-heading h2 {
+  margin-bottom: 8px;
+}
+
+.panel-heading h3 {
+  margin: 8px 0 6px;
+  font-size: 1.35rem;
+  font-family: var(--font-display), sans-serif;
+}
+
+.panel-grid,
+.skill-groups,
+.card-list,
+.contact-links,
+.stat-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.stat-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 16px;
+}
+
+.stat-item,
+.entry-card,
+.skill-card,
+.contact-card {
+  border-radius: 18px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.stat-item strong,
+.entry-card strong,
+.skill-card strong,
+.contact-card strong {
+  display: block;
+  font-family: var(--font-display), sans-serif;
+}
+
+.entry-meta,
+.contact-card span,
+.skill-level {
+  display: block;
+  margin-top: 6px;
+  color: var(--text-soft);
+  font-size: 0.9rem;
+}
+
+.pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(104, 245, 255, 0.12);
+  color: #d8fbff;
+  font-size: 0.82rem;
+}
+
+.panel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.hud-bottom {
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: end;
+}
+
+.progress-card {
+  border-radius: 20px;
+  padding: 16px 18px;
+  min-width: min(520px, calc(100vw - 40px));
+}
+
+.progress-line {
+  position: relative;
+  height: 10px;
+  margin-top: 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.progress-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--cyan), #8a8dff, var(--magenta));
+}
+
+.dot-row {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.dot {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.dot.active {
+  background: linear-gradient(90deg, var(--cyan), var(--magenta));
+  box-shadow: 0 0 22px rgba(104, 245, 255, 0.45);
+}
+
+.checkpoint-rail {
+  top: 160px;
+  right: 20px;
+  width: min(290px, calc(100vw - 40px));
+}
+
+.rail-card,
+.summary-card {
+  padding: 16px 18px;
+  border-radius: 20px;
+}
+
+.checkpoint-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.checkpoint-item {
+  display: grid;
+  grid-template-columns: 12px 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 10px 12px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  opacity: 0.72;
+}
+
+.checkpoint-item strong {
+  display: block;
+  font-size: 0.95rem;
+  font-family: var(--font-display), sans-serif;
+}
+
+.checkpoint-item p {
+  margin-top: 3px;
+  font-size: 0.78rem;
+  text-transform: capitalize;
+}
+
+.checkpoint-item.active {
+  opacity: 1;
+  border-color: rgba(104, 245, 255, 0.28);
+  background: rgba(104, 245, 255, 0.09);
+}
+
+.checkpoint-item.visited:not(.active) {
+  opacity: 0.92;
+}
+
+.checkpoint-dot {
+  width: 12px;
+  height: 12px;
+  margin-top: 5px;
+  border-radius: 999px;
+}
+
+.loading-screen,
+.intro-screen {
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.loading-screen,
+.intro-screen::before {
+  background:
+    radial-gradient(circle at top, rgba(104, 245, 255, 0.14), transparent 30%),
+    linear-gradient(180deg, rgba(9, 10, 28, 0.92), rgba(11, 11, 27, 0.84));
+}
+
+.loading-card,
+.intro-card {
+  width: min(680px, 100%);
+  border-radius: 28px;
+  padding: 28px;
+  text-align: center;
+}
+
+.loading-bar {
+  height: 12px;
+  margin-top: 18px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.loading-bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--cyan), #89a7ff, var(--magenta));
+  transition: width 260ms ease;
+}
+
+.intro-card h1 {
+  margin: 12px 0;
+  font-size: clamp(2.4rem, 5vw, 4.6rem);
+}
+
+.intro-card p {
+  margin: 0 auto;
+  max-width: 56ch;
+  color: var(--text-soft);
+  line-height: 1.7;
+}
+
+.intro-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.mini-note {
+  margin-top: 18px;
+  color: rgba(233, 241, 255, 0.56);
+  font-size: 0.88rem;
+}
+
+.error-state {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 900px) {
+  .hud-top,
+  .hud-bottom {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .progress-card,
+  .summary-card,
+  .guide-card,
+  .brand-chip {
+    max-width: none;
+    min-width: 0;
+  }
+
+  .panel-shell {
+    left: 20px;
+    right: 330px;
+    width: auto;
+  }
+
+  .checkpoint-rail {
+    top: auto;
+    right: 20px;
+    bottom: 150px;
+    width: 300px;
+  }
+}
+
+@media (max-width: 640px) {
+  html,
+  body {
+    overflow: hidden;
+  }
+
+  .hud-top,
+  .hud-bottom,
+  .panel-shell,
+  .checkpoint-rail {
+    left: 12px;
+    right: 12px;
+  }
+
+  .hud-top {
+    top: 12px;
+  }
+
+  .hud-bottom {
+    bottom: 12px;
+  }
+
+  .panel-shell {
+    top: 210px;
+    bottom: 110px;
+  }
+
+  .checkpoint-rail {
+    top: auto;
+    bottom: 12px;
+    width: auto;
+  }
+
+  .rail-card {
+    padding: 12px 14px;
+  }
+
+  .checkpoint-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .checkpoint-item {
+    padding: 9px 10px;
+  }
+
+  .checkpoint-item p {
+    display: none;
+  }
+
+  .panel,
+  .brand-chip,
+  .progress-card,
+  .guide-card,
+  .summary-card,
+  .rail-card,
+  .loading-card,
+  .intro-card {
+    border-radius: 20px;
+    padding: 18px;
+  }
+
+  .stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .brand-chip h1,
+  .intro-card h1 {
+    font-size: clamp(1.8rem, 9vw, 3rem);
+  }
+
+  .guide-card strong,
+  .panel h2 {
+    font-size: 1.2rem;
+  }
+
+  .brand-links a,
+  .intro-actions a,
+  .intro-actions button,
+  .panel-actions a {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .progress-card {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .summary-card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .hud-top {
+    gap: 10px;
+  }
+
+  .panel-shell {
+    top: 228px;
+    bottom: 110px;
+  }
+
+  .panel,
+  .brand-chip,
+  .progress-card,
+  .guide-card,
+  .summary-card,
+  .rail-card,
+  .loading-card,
+  .intro-card {
+    padding: 14px;
+  }
+
+  .checkpoint-list {
+    grid-template-columns: 1fr 1fr;
+  }
 }

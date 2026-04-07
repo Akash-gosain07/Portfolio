@@ -1,0 +1,63 @@
+
+C:\Users\win11\Desktop\portfolio\components\3d\HeroScene.tsx
+  18:21  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+C:\Users\win11\Desktop\portfolio\components\3d\HeroScene.tsx:18:21
+  16 |     
+  17 |     for (let i = 0; i < particlesCount; i++) {
+> 18 |       pos[i * 3] = (Math.random() - 0.5) * 5;
+     |                     ^^^^^^^^^^^^^ Cannot call impure function
+  19 |       pos[i * 3 + 1] = (Math.random() - 0.5) * 5;
+  20 |       pos[i * 3 + 2] = (Math.random() - 0.5) * 5;
+  21 |     }      react-hooks/purity
+  19:25  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+C:\Users\win11\Desktop\portfolio\components\3d\HeroScene.tsx:19:25
+  17 |     for (let i = 0; i < particlesCount; i++) {
+  18 |       pos[i * 3] = (Math.random() - 0.5) * 5;
+> 19 |       pos[i * 3 + 1] = (Math.random() - 0.5) * 5;
+     |                         ^^^^^^^^^^^^^ Cannot call impure function
+  20 |       pos[i * 3 + 2] = (Math.random() - 0.5) * 5;
+  21 |     }
+  22 |       react-hooks/purity
+  20:25  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+C:\Users\win11\Desktop\portfolio\components\3d\HeroScene.tsx:20:25
+  18 |       pos[i * 3] = (Math.random() - 0.5) * 5;
+  19 |       pos[i * 3 + 1] = (Math.random() - 0.5) * 5;
+> 20 |       pos[i * 3 + 2] = (Math.random() - 0.5) * 5;
+     |                         ^^^^^^^^^^^^^ Cannot call impure function
+  21 |     }
+  22 |     
+  23 |     for (let i = 0; i < particlesCount; i++) {  react-hooks/purity
+
+C:\Users\win11\Desktop\portfolio\components\3d\SkillCloud.tsx
+  16:38  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+C:\Users\win11\Desktop\portfolio\components\3d\SkillCloud.tsx:16:38
+  14 | const SkillNode = ({ position, text, color }: { position: [number, number, number], text: string, color: string }) => {
+  15 |   const ref = useRef<THREE.Mesh>(null);
+> 16 |   const factor = useMemo(() => 0.5 + Math.random(), []);
+     |                                      ^^^^^^^^^^^^^ Cannot call impure function
+  17 |   
+  18 |   useFrame((state) => {
+  19 |     if (ref.current) {  react-hooks/purity
+
+C:\Users\win11\Desktop\portfolio\components\sections\Contact.tsx
+  36:18   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  42:87   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  42:127  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\win11\Desktop\portfolio\components\ui\Navbar.tsx
+  3:27  warning  'useEffect' is defined but never used  @typescript-eslint/no-unused-vars
+
+??? 8 problems (7 errors, 1 warning)
+

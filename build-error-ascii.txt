@@ -1,0 +1,166 @@
+char:3
++   & $NODE_EXE 
+$NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (â  
+  š  Warning: Ne...not    
+ be correct.:String) [    
+], RemoteException
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+ We detected multiple 
+lockfiles and selected 
+the directory of C:\Users\
+win11\package-lock.json 
+as the root directory.
+ To silence this warning, 
+set `turbopack.root` in 
+your Next.js config, or 
+consider removing one of 
+the lockfiles if it's not 
+needed.
+   See https://nextjs.org/
+docs/app/api-reference/con
+fig/next-config-js/turbopa
+ck#root-directory for 
+more information.
+ Detected additional 
+lockfiles: 
+   * C:\Users\win11\Deskto
+p\portfolio\package-lock.j
+son
+
+â–² Next.js 16.2.2 (Turbopack)
+
+  Creating an optimized production build ...
+Error: Cannot apply 
+unknown utility class 
+`border-border`
+    [2m[at 
+onInvalidCandidate (C:\Use
+rs\win11\Desktop\portfolio
+\node_modules\tailwindcss\
+dist\lib.js:21:1511)][0m
+    [2m[at Ee (C:\Users\w
+in11\Desktop\portfolio\nod
+e_modules\tailwindcss\dist
+\lib.js:16:37066)][0m
+    [2m[at C:\Users\win11
+\Desktop\portfolio\node_mo
+dules\tailwindcss\dist\lib
+.js:21:355][0m
+    [2m[at _r (C:\Users\w
+in11\Desktop\portfolio\nod
+e_modules\tailwindcss\dist
+\lib.js:3:1733)][0m
+    [2m[at I (C:\Users\wi
+n11\Desktop\portfolio\node
+_modules\tailwindcss\dist\
+lib.js:3:1377)][0m
+    [2m[at Te (C:\Users\w
+in11\Desktop\portfolio\nod
+e_modules\tailwindcss\dist
+\lib.js:21:172)][0m
+    [2m[at mn (C:\Users\w
+in11\Desktop\portfolio\nod
+e_modules\tailwindcss\dist
+\lib.js:38:294)][0m
+    [2m[at async gn (C:\U
+sers\win11\Desktop\portfol
+io\node_modules\tailwindcs
+s\dist\lib.js:38:631)][0m
+    [2m[at async Xr (C:\U
+sers\win11\Desktop\portfol
+io\node_modules\@tailwindc
+ss\node\dist\index.js:10:3
+416)][0m
+    [2m[at async N (C:\Us
+ers\win11\Desktop\portfoli
+o\node_modules\@tailwindcs
+s\postcss\dist\index.js:10
+:3979)][0m
+
+> Build error occurred
+Error: Turbopack build 
+failed with 1 errors:
+./Desktop/portfolio/app/gl
+obals.css
+Error evaluating Node.js 
+code
+CssSyntaxError: 
+tailwindcss: C:\Users\win1
+1\Desktop\portfolio\app\gl
+obals.css:1:1: Cannot 
+apply unknown utility 
+class `border-border`
+    at Input.error (Deskto
+p/portfolio/node_modules/p
+ostcss/lib/input.js:135:16
+) [C:\Users\win11\Desktop\
+portfolio\.next\build\chun
+ks\0nyt_0r~urok._.js:4651:
+22]
+    at error (Desktop/port
+folio/node_modules/postcss
+/lib/node.js:146:32) [C:\U
+sers\win11\Desktop\portfol
+io\.next\build\chunks\0nyt
+_0r~urok._.js:928:38]
+    [at Object.Once (C:\Us
+ers\win11\Desktop\portfoli
+o\node_modules\@tailwindcs
+s\postcss\dist\index.js:10
+:6913)]
+    at async 
+LazyResult.runAsync (Deskt
+op/portfolio/node_modules/
+postcss/lib/lazy-result.js
+:293:11) [C:\Users\win11\D
+esktop\portfolio\.next\bui
+ld\chunks\0nyt_0r~urok._.j
+s:6214:21]
+    at async transform (tu
+rbopack:///[turbopack-node
+]/transforms/postcss.ts:70
+:34) [C:\Users\win11\Deskt
+op\portfolio\.next\build\c
+hunks\[root-of-the-server]
+__0z.pfr_._.js:146:36]
+    at async run (turbopac
+k:///[turbopack-node]/chil
+d_process/evaluate.ts:89:2
+3) [C:\Users\win11\Desktop
+\portfolio\.next\build\chu
+nks\[root-of-the-server]__
+0dr29dq._.js:443:31]
+
+Import trace:
+  Client Component 
+Browser:
+    ./Desktop/portfolio/ap
+p/globals.css [Client 
+Component Browser]
+    ./Desktop/portfolio/ap
+p/layout.tsx [Server 
+Component]
+
+
+    at async transform (tu
+rbopack:///[turbopack-node
+]/transforms/postcss.ts:70
+:34) [C:\Users\win11\Deskt
+op\portfolio\.next\build\c
+hunks\[root-of-the-server]
+__0z.pfr_._.js:146:36])
+    at async run (turbopac
+k:///[turbopack-node]/chil
+d_process/evaluate.ts:89:2
+3) [C:\Users\win11\Desktop
+\portfolio\.next\build\chu
+nks\[root-of-the-server]__
+0dr29dq._.js:443:31])
+

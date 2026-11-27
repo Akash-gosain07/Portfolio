@@ -6,9 +6,9 @@ export function createExplorer() {
   const body = new THREE.Group();
   root.add(body);
   const mat = (color: number, roughness = .8) => new THREE.MeshStandardMaterial({ color, roughness });
-  const jacket = mat(0xf2a33e), trim = mat(0x214858), trousers = mat(0x415d68);
+  const jacket = mat(0x777d62), trim = mat(0x343b35), trousers = mat(0x50584e);
   const skin = mat(0xc58b60), hair = mat(0x292b30), boots = mat(0x423b36);
-  const cream = mat(0xffebc5), bag = mat(0x326d70), black = mat(0x172e36);
+  const cream = mat(0xffebc5), bag = mat(0x494f40), black = mat(0x172e36);
   const mesh = (parent: THREE.Object3D, geo: THREE.BufferGeometry, material: THREE.Material, x: number, y: number, z: number) => {
     const m = new THREE.Mesh(geo, material);
     m.position.set(x,y,z); m.castShadow = true; parent.add(m); return m;
@@ -20,7 +20,7 @@ export function createExplorer() {
   const capsule = (p: THREE.Object3D,m: THREE.Material,x:number,y:number,z:number,r:number,len:number) =>
     mesh(p,new THREE.CapsuleGeometry(r,len,5,12),m,x,y,z);
   // Head, sculpted hair, ears, eyebrows, eyes and a small nose.
-  const head = new THREE.Group(); head.position.set(0,2.44,0); body.add(head);
+  const head = new THREE.Group(); head.position.set(0,2.34,0); head.scale.set(.76,.82,.78); body.add(head);
   sphere(head,skin,0,0,0,.42,.48,.39);
   sphere(head,hair,0,.23,-.06,.45,.29,.41);
   sphere(head,hair,-.17,.29,.13,.27,.19,.32);
@@ -46,10 +46,19 @@ export function createExplorer() {
     mesh(body,new THREE.BoxGeometry(.085,.61,.047),trim,side*.25,1.65,.33);
     mesh(body,new THREE.BoxGeometry(.10,.09,.045),cream,side*.25,1.43,.36);
   }
+  // Layered field jacket, shoulder patches, utility pockets and boot cuffs.
+  for(const side of [-1,1]){
+    const pocket=mesh(body,new THREE.BoxGeometry(.24,.24,.09),trim,side*.23,1.48,.32);
+    pocket.rotation.z=side*.04;
+    mesh(body,new THREE.BoxGeometry(.25,.055,.105),jacket,side*.23,1.58,.33);
+    mesh(body,new THREE.BoxGeometry(.12,.07,.025),cream,side*.23,1.80,.33);
+  }
+  mesh(body,new THREE.BoxGeometry(.24,.11,.07),black,0,1.21,.29);
   const arms: THREE.Group[] = [], legs: THREE.Group[] = [], knees: THREE.Group[] = [];
   for(const side of [-1,1]) {
     const arm=new THREE.Group();arm.position.set(side*.47,1.93,0);body.add(arm);
     capsule(arm,jacket,0,-.23,0,.14,.31);
+    mesh(arm,new THREE.BoxGeometry(.055,.18,.19),trim,side*.13,-.18,0);
     const elbow=new THREE.Group();elbow.position.y=-.45;arm.add(elbow);
     capsule(elbow,jacket,0,-.16,0,.112,.22);
     sphere(elbow,skin,0,-.34,0,.12,.14,.11);elbow.rotation.x=-.16;
@@ -58,6 +67,8 @@ export function createExplorer() {
     capsule(hip,trousers,0,-.27,0,.165,.37);
     const knee=new THREE.Group();knee.position.y=-.53;hip.add(knee);
     capsule(knee,trousers,0,-.22,0,.13,.32);
+    sphere(knee,trim,0,-.06,.12,.14,.14,.055);
+    capsule(knee,boots,0,-.43,0,.14,.12);
     sphere(knee,boots,0,-.49,.10,.16,.16,.25);
     mesh(knee,new THREE.BoxGeometry(.31,.07,.41),trim,0,-.59,.09);
     legs.push(hip);knees.push(knee);

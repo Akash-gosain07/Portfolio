@@ -85,3 +85,18 @@
 .village-backdrop{background:#101815b8}
 .village-map svg{filter:saturate(.55)}
 .village-page :focus-visible{outline-color:#bac58d}
+
+/* Arrival sequence: the interface yields to the world during the opening shot. */
+.arrival-overlay{position:fixed;inset:0;z-index:9;pointer-events:none;color:#f1f0e9;background:linear-gradient(180deg,#1019171a 0%,transparent 40%,#10191740 100%);}
+.arrival-letterbox{position:absolute;left:0;right:0;height:clamp(22px,7vh,75px);background:#101614;}
+.arrival-letterbox.top{top:0}.arrival-letterbox.bottom{bottom:0}
+.arrival-title{position:absolute;left:8%;right:8%;bottom:22%;text-align:center;text-shadow:0 3px 22px #142220,0 2px 5px #101714;}
+.arrival-title>span{font:600 .7rem monospace;letter-spacing:.22em;color:#d6e4ca;}
+.arrival-title h1{font-family:var(--font-display),sans-serif;font-size:clamp(2rem,6vw,5.2rem);line-height:1.12;letter-spacing:-.025em;margin:12px 0;}
+.arrival-title p{font-size:clamp(.7rem,1.8vw,1rem);letter-spacing:.08em;}
+.arrival-actions{position:absolute;right:clamp(10px,3vw,36px);bottom:calc(clamp(22px,7vh,75px) + 14px);display:flex;gap:8px;pointer-events:auto;flex-wrap:wrap;justify-content:flex-end;}
+.arrival-actions button{background:#17231fe8;border-color:#86988a;color:#edf0e5;font-size:.75rem;padding:10px 14px;}
+.arrival-progress{position:absolute;left:8%;right:8%;height:2px;bottom:calc(clamp(22px,7vh,75px) / 2);background:#d2d6c92b;}
+.arrival-progress span{display:block;height:100%;background:#cfdbad;transition:width .15s linear;}
+@media(max-width:600px){.arrival-title{bottom:30%;}.arrival-actions{right:10px;left:10px;justify-content:center;}.arrival-title>span{font-size:.6rem;letter-spacing:.12em;}}
+@media(prefers-reduced-motion:reduce){.arrival-progress span{transition:none;}}

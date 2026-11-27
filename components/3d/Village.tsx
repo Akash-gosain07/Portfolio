@@ -13,7 +13,6 @@ type Config = {
  achievements?:{title:string;detail:string}[];
  contact:{greeting:string;message:string;links:{text:string;url:string}[]};
 };
-const first=places[0];
 const start:Position={x:5,z:23};
 const distance=(a:Position,b:Position)=>Math.hypot(a.x-b.x,a.z-b.z);
 const byId=(id:PlaceId)=>places.find(p=>p.id===id)!;
@@ -46,6 +45,7 @@ export default function Village(){
  const [opened,setOpened]=useState<PlaceId|null>(null),[visited,setVisited]=useState<PlaceId[]>([]);
  const [location,setLocation]=useState<Position>(start);
  const [mapOpen,setMapOpen]=useState(false);
+ const dialogRef=useRef<HTMLElement>(null);
  const active=byId(current);
  useEffect(()=>{let alive=true;fetch("/config.json").then(r=>{if(!r.ok)throw Error("Unable to load portfolio");return r.json()}).then(c=>{if(alive)setConfig(c)}).catch(()=>{if(alive)setError("The portfolio could not load. Please refresh or open the résumé.")});return()=>{alive=false;};},[]);
  useEffect(()=>{state.current={started,open:!!opened,quick};if(opened||quick)keys.current.clear();},[started,opened,quick]);
@@ -72,7 +72,7 @@ export default function Village(){
   const ray=new THREE.Raycaster(),pointer=new THREE.Vector2(),floor=new THREE.Plane(new THREE.Vector3(0,1,0),0),hit=new THREE.Vector3();
   const click=(event:PointerEvent)=>{if(!state.current.started||state.current.open||state.current.quick)return;const r=node.getBoundingClientRect();pointer.set((event.clientX-r.left)/r.width*2-1,-(event.clientY-r.top)/r.height*2+1);ray.setFromCamera(pointer,camera);if(ray.ray.intersectPlane(floor,hit)&&canWalk(hit.x,hit.z))target.current={x:hit.x,z:hit.z};};
   node.addEventListener("pointerdown",click);
-  const down=(e:KeyboardEvent)=>{if(!state.current.started||state.current.open||state.current.quick||e.target instanceof HTMLButtonElement||e.target instanceof HTMLAnchorElement||e.ctrlKey||e.metaKey||e.altKey)return;const k=e.key.toLowerCase();if(["w","a","s","d","arrowup","arrowdown","arrowleft","arrowright","shift"].includes(k)){e.preventDefault();keys.current.add(k);target.current=null;}};
+  const down=(e:KeyboardEvent)=>{if(!state.current.started||state.current.open||state.current.quick||e.target instanceof HTMLInputElement||e.target instanceof HTMLTextAreaElement||e.ctrlKey||e.metaKey||e.altKey)return;const k=e.key.toLowerCase();if(["w","a","s","d","arrowup","arrowdown","arrowleft","arrowright","shift"].includes(k)){e.preventDefault();keys.current.add(k);target.current=null;}};
   const up=(e:KeyboardEvent)=>keys.current.delete(e.key.toLowerCase());
   const blur=()=>keys.current.clear();
   window.addEventListener("keydown",down);window.addEventListener("keyup",up);window.addEventListener("blur",blur);
@@ -122,6 +122,7 @@ export default function Village(){
   frame=requestAnimationFrame(tick);setReady(true);
   return()=>{cancelAnimationFrame(frame);observer.disconnect();node.removeEventListener("pointerdown",click);window.removeEventListener("keydown",down);window.removeEventListener("keyup",up);window.removeEventListener("blur",blur);const gs=new Set<THREE.BufferGeometry>(),ms=new Set<THREE.Material>();scene.traverse(o=>{if(o instanceof THREE.Mesh){gs.add(o.geometry);(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>ms.add(m));}if(o instanceof THREE.Sprite)ms.add(o.material);});gs.forEach(g=>g.dispose());ms.forEach(m=>{if("map" in m&&m.map instanceof THREE.Texture)m.map.dispose();m.dispose();});renderer.dispose();};
  },[]);
+ useEffect(()=>{if(!opened)return;const previous=document.activeElement as HTMLElement|null;const el=dialogRef.current;el?.querySelector<HTMLElement>("button")?.focus();const trap=(e:KeyboardEvent)=>{if(e.key!=="Tab"||!el)return;const items=Array.from(el.querySelectorAll<HTMLElement>("button:not([disabled]),a[href]"));const first=items[0],last=items[items.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}};document.addEventListener("keydown",trap);return()=>{document.removeEventListener("keydown",trap);previous?.focus();};},[opened]);
  useEffect(()=>{const handler=(e:KeyboardEvent)=>{if(e.key==="Escape"){setOpened(null);setMapOpen(false);}if(e.key.toLowerCase()==="e"&&!e.repeat&&state.current.started&&!state.current.open&&!state.current.quick&&near){e.preventDefault();target.current=null;setOpened(near);setVisited(v=>v.includes(near)?v:[...v,near]);}};window.addEventListener("keydown",handler);return()=>window.removeEventListener("keydown",handler);},[near]);
  const moveButton=(key:string,label:string)=><button type="button" aria-label={label} onPointerDown={e=>{e.currentTarget.setPointerCapture(e.pointerId);target.current=null;keys.current.add(key);}} onPointerUp={()=>keys.current.delete(key)} onPointerCancel={()=>keys.current.delete(key)} onLostPointerCapture={()=>keys.current.delete(key)}>{label}</button>;
  return <main className="village-page">
@@ -135,8 +136,8 @@ export default function Village(){
    </>}
   </div>
   {!quick&&started&&<footer className="village-controls"><div className="village-dpad">{moveButton("w","↑")}<div>{moveButton("a","←")}{moveButton("s","↓")}{moveButton("d","→")}</div></div><div className="village-help"><strong>{near?`You reached ${byId(near).name}`:"Explore the village"}</strong><small>WASD / arrows · tap ground · Shift to run</small></div><button className="village-action" disabled={!near} onClick={interact}>{near?"Explore · E":"Approach a door"}</button></footer>}
-  {!started&&!quick&&<div className="village-backdrop"><section className="village-welcome"><span>AN INTERACTIVE PORTFOLIO</span><h1>Welcome to<br/>The Valley.</h1><p>Explore my world, meet my work. Walk through seven buildings and discover the story behind each one.</p><button disabled={!ready||!config} onClick={()=>{setStarted(true);setVoice(true);speak(first.instruction);}}>Start adventure · voice on</button><button disabled={!ready||!config} onClick={()=>setStarted(true)}>Start without voice</button><button onClick={()=>{setQuick(true);setStarted(true);}}>Skip to portfolio</button>{error&&<p role="alert">{error}</p>}</section></div>}
-  {opened&&config&&<div className="village-backdrop" onClick={close}><section role="dialog" aria-modal="true" aria-label={byId(opened).name} className="village-dialog" onClick={e=>e.stopPropagation()}><header><span>{byId(opened).name} · discovered</span><button autoFocus onClick={close} aria-label="Close location">✕</button></header><Details id={opened} c={config}/><button className="village-continue" onClick={close}>Return to {quick?"portfolio":"village"} →</button></section></div>}
+  {!started&&!quick&&<div className="village-backdrop"><section className="village-welcome"><span>AN INTERACTIVE PORTFOLIO</span><h1>Welcome to<br/>The Valley.</h1><p>Explore my world, meet my work. Walk through seven buildings and discover the story behind each one.</p><button disabled={!ready||!config} onClick={()=>{setStarted(true);setVoice(true);}}>Start adventure · voice on</button><button disabled={!ready||!config} onClick={()=>setStarted(true)}>Start without voice</button><button onClick={()=>{setQuick(true);setStarted(true);}}>Skip to portfolio</button>{error&&<p role="alert">{error}</p>}</section></div>}
+  {opened&&config&&<div className="village-backdrop" onClick={close}><section ref={dialogRef} role="dialog" aria-modal="true" aria-label={byId(opened).name} className="village-dialog" onClick={e=>e.stopPropagation()}><header><span>{byId(opened).name} · discovered</span><button autoFocus onClick={close} aria-label="Close location">✕</button></header><Details id={opened} c={config}/><button className="village-continue" onClick={close}>Return to {quick?"portfolio":"village"} →</button></section></div>}
   {error&&started&&<p className="village-error" role="alert">{error} <a href="/resume.pdf">Résumé</a></p>}
  </main>;
 }

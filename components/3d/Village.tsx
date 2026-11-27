@@ -13,7 +13,7 @@ type Config = {
  achievements?:{title:string;detail:string}[];
  contact:{greeting:string;message:string;links:{text:string;url:string}[]};
 };
-const start:Position={x:5,z:23};
+const start:Position={x:4,z:16};
 const distance=(a:Position,b:Position)=>Math.hypot(a.x-b.x,a.z-b.z);
 const byId=(id:PlaceId)=>places.find(p=>p.id===id)!;
 function speak(text:string){
@@ -27,7 +27,7 @@ function Details({id,c}:{id:PlaceId;c:Config}){
  {id==="home"&&<><h2>{c.personal.name}</h2><p>{c.personal.title}</p><div className="village-stats">{c.personal.stats.map(s=><div key={s.label}><strong>{s.value}</strong><small>{s.label}</small></div>)}</div>{c.personal.bio.map(b=><p key={b}>{b}</p>)}<a href="/resume.pdf" target="_blank" rel="noreferrer">Read résumé ↗</a></>}
  {id==="experience"&&c.experience.map(e=><article key={e.company}><small>{e.period}</small><h3>{e.company}</h3><strong>{e.title}</strong><p>{e.description}</p></article>)}
  {id==="projects"&&c.projects.map(p=><article key={p.name}><h3>{p.name}</h3><p>{p.description}</p><div className="village-tags">{p.tags.map(t=><span key={t}>{t}</span>)}</div>{p.url&&<a href={p.url} target="_blank" rel="noreferrer">View source ↗</a>}</article>)}
- {id==="skills"&&c.skills.map(s=><article key={s.category}><h3>{s.category}</h3><div className="village-tags">{s.items.map(i=><span key={i.name}>{i.name} · {i.level}</span>)}</div></article>)}
+ {id==="skills"&&c.skills.map(s=><article key={s.category}><h3>{s.category}</h3><div className="village-tags">{s.items.map(i=><span key={i.name}>{i.name}{i.level ? " · "+i.level : ""}</span>)}</div></article>)}
  {id==="education"&&<>{c.education.map(e=><article key={e.degree}><small>{e.period}</small><h3>{e.degree}</h3><strong>{e.institution}</strong><p>{e.description}</p></article>)}<article><h3>Certifications</h3>{c.certifications.map(s=><p key={s.title}>{s.title} — {s.issuer}</p>)}</article></>}
  {id==="achievements"&&c.achievements?.map(a=><article key={a.title}><h3>{a.title}</h3><p>{a.detail}</p></article>)}
  {id==="contact"&&<><h2>{c.contact.greeting}</h2><p>{c.contact.message}</p>{c.contact.links.map(l=><a key={l.url} href={l.url} target="_blank" rel="noreferrer">{l.text} ↗</a>)}<a href="/resume.pdf" target="_blank" rel="noreferrer">Résumé ↗</a></>}
@@ -58,15 +58,15 @@ export default function Village(){
   const node=canvas.current;if(!node)return;
   let renderer:THREE.WebGLRenderer;
   try{renderer=new THREE.WebGLRenderer({canvas:node,antialias:true,powerPreference:"high-performance"});}catch{setUnavailable(true);setQuick(true);setReady(true);return;}
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.5));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.88;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.5));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.76;
   renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
-  const scene=new THREE.Scene();scene.background=new THREE.Color(0xb7b4a5);scene.fog=new THREE.FogExp2(0xb7b4a5,.008);
-  scene.add(new THREE.HemisphereLight(0xe4dfd3,0x6f725b,1.6));
-  const sun=new THREE.DirectionalLight(0xffe2b5,2.0);sun.position.set(-32,55,24);sun.castShadow=true;
+  const scene=new THREE.Scene();scene.background=new THREE.Color(0x929b9a);scene.fog=new THREE.FogExp2(0x929b9a,.008);
+  scene.add(new THREE.HemisphereLight(0xcbd5d7,0x62675d,1.45));
+  const sun=new THREE.DirectionalLight(0xffe9ce,1.65);sun.position.set(-32,55,24);sun.castShadow=true;
   sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-48;sun.shadow.camera.right=48;sun.shadow.camera.top=50;sun.shadow.camera.bottom=-50;sun.shadow.camera.far=160;sun.shadow.normalBias=.05;scene.add(sun);
   const {avatar}=buildVillage(scene);
   const camera=new THREE.PerspectiveCamera(48,1,.1,350);
-  camera.position.set(start.x+12,22,start.z+19);
+  camera.position.set(start.x+6,9,start.z+12);
   const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const observer=new ResizeObserver(()=>{const w=node.clientWidth,h=node.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();});observer.observe(node);
   const ray=new THREE.Raycaster(),pointer=new THREE.Vector2(),floor=new THREE.Plane(new THREE.Vector3(0,1,0),0),hit=new THREE.Vector3();
@@ -95,7 +95,7 @@ export default function Village(){
       let wx=t.x,wz=t.z;
       const straight=Array.from({length:16},(_,i)=>{const f=(i+1)/16;return canWalk(p.x+(t.x-p.x)*f,p.z+(t.z-p.z)*f);}).every(Boolean);
       if(!straight){
-       const nodes:Position[]=[{x:-22,z:p.z},{x:22,z:p.z},{x:-22,z:t.z},{x:22,z:t.z},{x:p.x,z:-40},{x:p.x,z:26},{x:t.x,z:-40},{x:t.x,z:26},...places.map(doorway),{x:-8,z:5.2},{x:8,z:5.2},{x:-8,z:-13.8},{x:8,z:-13.8},t];
+       const nodes:Position[]=[{x:-16,z:p.z},{x:16,z:p.z},{x:-16,z:t.z},{x:16,z:t.z},{x:p.x,z:-27},{x:p.x,z:19},{x:t.x,z:-27},{x:t.x,z:19},...places.map(doorway),{x:-5,z:3.65},{x:5,z:3.65},{x:-5,z:-8.35},{x:5,z:-8.35},t];
        const all=[p,...nodes],n=all.length,dist=Array(n).fill(Infinity) as number[],prev=Array(n).fill(-1) as number[],done=new Set<number>();dist[0]=0;
        const visible=(a:Position,b:Position)=>{const steps=Math.max(2,Math.ceil(distance(a,b)/.7));for(let j=1;j<=steps;j++){const f=j/steps;if(!canWalk(a.x+(b.x-a.x)*f,a.z+(b.z-a.z)*f))return false;}return true;};
        for(let j=0;j<n;j++){let u=-1;for(let i=0;i<n;i++)if(!done.has(i)&&(u<0||dist[i]<dist[u]))u=i;if(u<0||!Number.isFinite(dist[u]))break;done.add(u);if(u===n-1)break;for(let v=1;v<n;v++)if(!done.has(v)&&visible(all[u],all[v])){const d=dist[u]+distance(all[u],all[v]);if(d<dist[v]){dist[v]=d;prev[v]=u;}}}
@@ -106,7 +106,7 @@ export default function Village(){
     }
    }
    const magnitude=Math.hypot(dx,dz);let moved=0;
-   if(magnitude>.001){const speed=k.has("shift")?10:5.7;const step=Math.min(speed*dt,magnitude);const x=dx/magnitude*step,z=dz/magnitude*step;
+   if(magnitude>.001){const speed=k.has("shift")?8:4.8;const step=Math.min(speed*dt,magnitude);const x=dx/magnitude*step,z=dz/magnitude*step;
     if(canWalk(p.x+x,p.z)){p.x+=x;moved+=Math.abs(x);}
     if(canWalk(p.x,p.z+z)){p.z+=z;moved+=Math.abs(z);}
     if(moved>0){const angle=Math.atan2(dx,dz),delta=Math.atan2(Math.sin(angle-avatar.root.rotation.y),Math.cos(angle-avatar.root.rotation.y));avatar.root.rotation.y+=delta*(reduced?1:1-Math.exp(-dt*13));}
@@ -115,8 +115,8 @@ export default function Village(){
    avatar.leftArm.rotation.x=swing;avatar.rightArm.rotation.x=-swing;avatar.leftLeg.rotation.x=-swing;avatar.rightLeg.rotation.x=swing;
    avatar.knees[0].rotation.x=Math.max(0,swing);avatar.knees[1].rotation.x=Math.max(0,-swing);
    avatar.body.position.y=reduced?0:Math.abs(swing)*.09;avatar.root.position.set(p.x,groundHeight(p.x,p.z)+.04,p.z);
-   desired.set(p.x+10,15,p.z+18);camera.position.lerp(desired,reduced?1:1-Math.exp(-dt*5));look.set(p.x,1.5,p.z-2);camera.lookAt(look);
-   if(now-lastUpdate>100){lastUpdate=now;setLocation({...p});const closest=places.find(place=>distance(p,doorway(place))<2.15)?.id??null;if(closest!==oldNear){oldNear=closest;setNear(closest);}}
+   desired.set(p.x+6,9,p.z+12);camera.position.lerp(desired,reduced?1:1-Math.exp(-dt*5));look.set(p.x,1.5,p.z-2.5);camera.lookAt(look);
+   if(now-lastUpdate>100){lastUpdate=now;setLocation({...p});const closest=places.find(place=>distance(p,doorway(place))<1.8)?.id??null;if(closest!==oldNear){oldNear=closest;setNear(closest);}}
    renderer.render(scene,camera);
   }
   frame=requestAnimationFrame(tick);setReady(true);
@@ -126,18 +126,18 @@ export default function Village(){
  useEffect(()=>{const handler=(e:KeyboardEvent)=>{if(e.key==="Escape"){setOpened(null);setMapOpen(false);}if(e.key.toLowerCase()==="e"&&!e.repeat&&state.current.started&&!state.current.open&&!state.current.quick&&near){e.preventDefault();target.current=null;setOpened(near);setVisited(v=>v.includes(near)?v:[...v,near]);}};window.addEventListener("keydown",handler);return()=>window.removeEventListener("keydown",handler);},[near]);
  const moveButton=(key:string,label:string)=><button type="button" aria-label={label} onPointerDown={e=>{e.currentTarget.setPointerCapture(e.pointerId);target.current=null;keys.current.add(key);}} onPointerUp={()=>keys.current.delete(key)} onPointerCancel={()=>keys.current.delete(key)} onLostPointerCapture={()=>keys.current.delete(key)}>{label}</button>;
  return <main className="village-page">
-  <header className="village-header"><a className="village-brand" href="/">AK <span> / THE VALLEY</span></a><nav><button type="button" onClick={()=>{setStarted(true);setQuick(v=>!v);setOpened(null);setMapOpen(false);}} disabled={unavailable}>{quick?"Play game":"Quick portfolio"}</button><a href="/resume.pdf" target="_blank" rel="noreferrer">Résumé ↗</a><button type="button" aria-pressed={voice} onClick={()=>setVoice(v=>!v)}>{voice?"Voice on":"Voice off"}</button></nav></header>
+  <header className="village-header"><a className="village-brand" href="/">AK <span> / FIELD OPS</span></a><nav><button type="button" onClick={()=>{setStarted(true);setQuick(v=>!v);setOpened(null);setMapOpen(false);}} disabled={unavailable}>{quick?"Play game":"Quick portfolio"}</button><a href="/resume.pdf" target="_blank" rel="noreferrer">Résumé ↗</a><button type="button" aria-pressed={voice} onClick={()=>setVoice(v=>!v)}>{voice?"Voice on":"Voice off"}</button></nav></header>
   <div className={`village-stage ${quick?"is-quick":""}`}>
    <canvas ref={canvas} className="village-canvas" aria-label="Interactive mountain village. Use WASD, arrow keys, or tap the ground to move."/>
    {quick&&<section className="village-quick"><h1>{config?.personal.name??"Portfolio"}</h1><p>Software engineering · Research · 2027</p><div className="village-quick-nav">{places.map(p=><button key={p.id} onClick={()=>open(p.id)}>{p.name}</button>)}</div>{config&&<Details id="home" c={config}/>}</section>}
    {!quick&&started&&<><div className="village-hud"><span>MISSION {Math.min(visited.length+1,places.length)} / {places.length}</span><h2>{visited.length===places.length?"All locations discovered":active.name}</h2><p>{visited.length===places.length?"Explore freely or revisit any building.":active.instruction}</p><div><button onClick={()=>choose(current)}>Guide me there</button><button onClick={()=>speak(active.instruction)}>Hear instruction</button></div></div>
    <button className="village-map-toggle" onClick={()=>setMapOpen(v=>!v)} aria-expanded={mapOpen}>Map · {visited.length}/{places.length}</button>
-   {mapOpen&&<aside className="village-map"><h3>Village map</h3><svg viewBox="0 0 120 155" role="img" aria-label="Map showing player and buildings"><rect width="120" height="155" rx="8" fill="#dce1c7"/><path d="M60 5V150M20 86H100M20 56H100" stroke="#b5a58a" strokeWidth="8" fill="none"/>{places.map(p=><rect key={p.id} x={60+p.x*1.65-5} y={76+p.z*1.65-5} width="10" height="10" rx="2" fill={visited.includes(p.id)?"#477553":"#a57851"}/>)}<circle cx={60+location.x*1.65} cy={76+location.z*1.65} r="4" fill="#142f45"/></svg>{places.map(p=><button key={p.id} onClick={()=>choose(p.id)}>{visited.includes(p.id)?"✓ ":""}{p.name}</button>)}</aside>}
+   {mapOpen&&<aside className="village-map"><h3>Operations map</h3><svg viewBox="0 0 120 155" role="img" aria-label="Map showing player and buildings"><rect width="120" height="155" rx="8" fill="#dce1c7"/><path d="M60 5V150M20 86H100M20 56H100" stroke="#b5a58a" strokeWidth="8" fill="none"/>{places.map(p=><rect key={p.id} x={60+p.x*2.3-5} y={76+p.z*2.3-5} width="10" height="10" rx="2" fill={visited.includes(p.id)?"#477553":"#a57851"}/>)}<circle cx={60+location.x*2.3} cy={76+location.z*2.3} r="4" fill="#142f45"/></svg>{places.map(p=><button key={p.id} onClick={()=>choose(p.id)}>{visited.includes(p.id)?"✓ ":""}{p.name}</button>)}</aside>}
    </>}
   </div>
-  {!quick&&started&&<footer className="village-controls"><div className="village-dpad">{moveButton("w","↑")}<div>{moveButton("a","←")}{moveButton("s","↓")}{moveButton("d","→")}</div></div><div className="village-help"><strong>{near?`You reached ${byId(near).name}`:"Explore the village"}</strong><small>WASD / arrows · tap ground · Shift to run</small></div><button className="village-action" disabled={!near} onClick={interact}>{near?"Explore · E":"Approach a door"}</button></footer>}
-  {!started&&!quick&&<div className="village-backdrop"><section className="village-welcome"><span>AN INTERACTIVE PORTFOLIO</span><h1>Welcome to<br/>The Valley.</h1><p>Explore my world, meet my work. Walk through seven buildings and discover the story behind each one.</p><button disabled={!ready||!config} onClick={()=>{setStarted(true);setVoice(true);}}>Start adventure · voice on</button><button disabled={!ready||!config} onClick={()=>setStarted(true)}>Start without voice</button><button onClick={()=>{setQuick(true);setStarted(true);}}>Skip to portfolio</button>{error&&<p role="alert">{error}</p>}</section></div>}
-  {opened&&config&&<div className="village-backdrop" onClick={close}><section ref={dialogRef} role="dialog" aria-modal="true" aria-label={byId(opened).name} className="village-dialog" onClick={e=>e.stopPropagation()}><header><span>{byId(opened).name} · discovered</span><button autoFocus onClick={close} aria-label="Close location">✕</button></header><Details id={opened} c={config}/><button className="village-continue" onClick={close}>Return to {quick?"portfolio":"village"} →</button></section></div>}
+  {!quick&&started&&<footer className="village-controls"><div className="village-dpad">{moveButton("w","↑")}<div>{moveButton("a","←")}{moveButton("s","↓")}{moveButton("d","→")}</div></div><div className="village-help"><strong>{near?`You reached ${byId(near).name}`:"Awaiting objective"}</strong><small>WASD / arrows · tap ground · Shift to run</small></div><button className="village-action" disabled={!near} onClick={interact}>{near?"Explore · E":"Approach a door"}</button></footer>}
+  {!started&&!quick&&<div className="village-backdrop"><section className="village-welcome"><span>PERSONNEL FILE / INTERACTIVE PORTFOLIO</span><h1>Field Ops.<br/>Briefing 01.</h1><p>Explore a compact operations compound. Follow the mission briefing, visit seven stations and unlock my professional profile. No combat, just discovery.</p><button disabled={!ready||!config} onClick={()=>{setStarted(true);setVoice(true);}}>Deploy · voice on</button><button disabled={!ready||!config} onClick={()=>setStarted(true)}>Deploy silently</button><button onClick={()=>{setQuick(true);setStarted(true);}}>Skip to portfolio</button>{error&&<p role="alert">{error}</p>}</section></div>}
+  {opened&&config&&<div className="village-backdrop" onClick={close}><section ref={dialogRef} role="dialog" aria-modal="true" aria-label={byId(opened).name} className="village-dialog" onClick={e=>e.stopPropagation()}><header><span>{byId(opened).name} · discovered</span><button autoFocus onClick={close} aria-label="Close location">✕</button></header><Details id={opened} c={config}/><button className="village-continue" onClick={close}>Return to {quick?"portfolio":"operations"} →</button></section></div>}
   {error&&started&&<p className="village-error" role="alert">{error} <a href="/resume.pdf">Résumé</a></p>}
  </main>;
 }

@@ -26,7 +26,14 @@ export function buildVillage(scene:THREE.Scene){
   let seed=7291;
   const random=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};
   const mat=(color:number)=>new THREE.MeshStandardMaterial({color,roughness:.96});
-  const dirt=mat(0x77736a),stone=mat(0x89877d),wood=mat(0x444944),plaster=mat(0xb6b3a5),glass=mat(0x57727a),leaf=mat(0x52684c),darkLeaf=mat(0x3c5342);
+  // Repeatable microtexture: weathered concrete, subtle surface variation, no network assets.
+  const surface=document.createElement("canvas");surface.width=128;surface.height=128;
+  const ctx=surface.getContext("2d")!;const image=ctx.createImageData(128,128);
+  for(let i=0;i<image.data.length;i+=4){const v=200+Math.floor(random()*48);image.data[i]=v;image.data[i+1]=v;image.data[i+2]=v;image.data[i+3]=255;}
+  ctx.putImageData(image,0,0);
+  const texture=new THREE.CanvasTexture(surface);texture.colorSpace=THREE.SRGBColorSpace;texture.wrapS=texture.wrapT=THREE.RepeatWrapping;texture.repeat.set(2,2);
+  const weather=(material:THREE.MeshStandardMaterial)=>{material.map=texture;material.bumpMap=texture;material.bumpScale=.035;return material;};
+  const dirt=weather(mat(0x77736a)),stone=weather(mat(0x89877d)),wood=mat(0x444944),plaster=mat(0xb6b3a5),glass=mat(0x57727a),leaf=mat(0x52684c),darkLeaf=mat(0x3c5342);
   const box=(parent:THREE.Object3D,w:number,h:number,d:number,m:THREE.Material,x:number,y:number,z:number)=>{
     const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);mesh.position.set(x,y,z);mesh.castShadow=true;mesh.receiveShadow=true;parent.add(mesh);return mesh;
   };
@@ -56,12 +63,14 @@ export function buildVillage(scene:THREE.Scene){
   };
   for(const p of places){
     const g=new THREE.Group();g.position.set(p.x,0,p.z);g.scale.setScalar(.70);root.add(g);
-    const wall=mat(p.id==="home"?0xb0afa1:0xa3a69c),roof=mat(p.color);
+    const wall=weather(mat(p.id==="home"?0xb0afa1:0xa3a69c)),roof=weather(mat(p.color));
     box(g,8.3,.3,7.3,stone,0,.15,0);
     box(g,7.8,3.65,6.7,wall,0,2.05,0);
     const r=new THREE.Mesh(roofGeometry(),roof);r.position.y=3.88;r.castShadow=true;r.receiveShadow=true;g.add(r);
     box(g,8.85,.16,.21,wood,0,3.92,3.8);
     box(g,8.85,.16,.21,wood,0,3.92,-3.8);
+    for(let j=-3;j<=3;j++)box(g,.07,.10,7.5,wood,j*1.15,4.02+.42*(1-Math.abs(j)/4),0);
+    box(g,7.85,.13,.13,wood,0,.58,3.4);
     box(g,.85,.65,.85,stone,2.5,4.25,-1.2);
     box(g,1.08,.19,1.08,wood,2.5,4.65,-1.2);
     box(g,1.55,2.7,.22,wood,0,1.64,3.45);
@@ -98,7 +107,8 @@ export function buildVillage(scene:THREE.Scene){
   // Alpine silhouettes and layered foothills.
   for(let i=0;i<27;i++){
     const theta=i/27*Math.PI*2,dist=97+random()*18,h=22+random()*32;
-    const mountain=new THREE.Mesh(new THREE.ConeGeometry(15+random()*15,h,5),mat(i%2?0x98948b:0xa7a096));mountain.position.set(Math.cos(theta)*dist,h*.38,Math.sin(theta)*dist);mountain.rotation.y=random()*6;root.add(mountain);
+    const mountainGeometry=new THREE.ConeGeometry(15+random()*15,h,13,5);const a=mountainGeometry.attributes.position;for(let v=0;v<a.count;v++){const x=a.getX(v),y=a.getY(v),z=a.getZ(v);const scale=1+.14*Math.sin(x*.43+z*.31+y*.22);a.setXYZ(v,x*scale,y,z*scale);}mountainGeometry.computeVertexNormals();
+    const mountain=new THREE.Mesh(mountainGeometry,mat(i%2?0x858b86:0x999d96));mountain.position.set(Math.cos(theta)*dist,h*.38,Math.sin(theta)*dist);mountain.rotation.y=random()*6;root.add(mountain);
   }
   for(const p of [{x:-8,z:23},{x:8,z:23},{x:-8,z:-26},{x:8,z:-26}]){
     const trunk=new THREE.Mesh(new THREE.CylinderGeometry(.15,.25,2.2,8),wood);trunk.position.set(p.x,1.1,p.z);root.add(trunk);

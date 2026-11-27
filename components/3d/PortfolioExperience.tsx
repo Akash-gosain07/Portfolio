@@ -28,6 +28,7 @@ type PortfolioConfig = {
     emoji: string;
     tags: string[];
     gradient: string;
+    url?: string;
   }>;
   skills: Array<{
     category: string;
@@ -40,6 +41,7 @@ type PortfolioConfig = {
     description: string;
     icon: string;
   }>;
+  achievements?: Array<{ title: string; detail: string }>;
   certifications: Array<{ title: string; issuer: string }>;
   contact: {
     greeting: string;
@@ -58,18 +60,19 @@ type Zone = {
 };
 
 const WORLD_LENGTH = 300;
+const ZONE_NAV_EVENT = "portfolio:navigate";
 const CAMERA_DISTANCE = 15;
 const CAMERA_HEIGHT = 6;
 const CAMERA_SMOOTH = 0.05;
 
 const zones: Zone[] = [
-  { id: "intro", label: "Intro Gateway", start: 0, end: -25, accent: "#68f5ff", blurb: "Arrival platform, signal ring, and the opening cinematic beat." },
-  { id: "about", label: "About Forest", start: -25, end: -65, accent: "#82ffb0", blurb: "A calm grove with personal story cards and nature particles." },
-  { id: "experience", label: "Experience City", start: -65, end: -115, accent: "#d3e1ea", blurb: "A skyline of shipped work, production impact, and team collaboration." },
-  { id: "projects", label: "Project Grid", start: -115, end: -175, accent: "#68f5ff", blurb: "Holographic pillars spotlight flagship builds and product thinking." },
-  { id: "skills", label: "Skill Core", start: -175, end: -225, accent: "#ff5fe6", blurb: "Orbiting nodes map the stack across frontend, backend, and AI." },
-  { id: "education", label: "Education Monument", start: -225, end: -265, accent: "#ffd76f", blurb: "A gold campus memorial with academics, school history, and certifications." },
-  { id: "contact", label: "Contact Portal", start: -265, end: -300, accent: "#65b8ff", blurb: "The final portal sends visitors to GitHub, LinkedIn, and email." },
+  { id: "intro", label: "The Spawn", start: 0, end: -25, accent: "#63dffc", blurb: "Your starting point. Meet the developer behind the world." },
+  { id: "about", label: "Origin Grove", start: -25, end: -65, accent: "#82ffb0", blurb: "A calm grove with personal story cards and nature particles." },
+  { id: "experience", label: "Career City", start: -65, end: -115, accent: "#d3e1ea", blurb: "A skyline of shipped work, production impact, and team collaboration." },
+  { id: "projects", label: "Project Arena", start: -115, end: -175, accent: "#68f5ff", blurb: "Holographic pillars spotlight flagship builds and product thinking." },
+  { id: "skills", label: "Skill Galaxy", start: -175, end: -225, accent: "#ff5fe6", blurb: "Orbiting nodes map the stack across frontend, backend, and AI." },
+  { id: "education", label: "Knowledge Keep", start: -225, end: -265, accent: "#ffd76f", blurb: "A gold campus memorial with academics, school history, and certifications." },
+  { id: "contact", label: "The Portal", start: -265, end: -300, accent: "#65b8ff", blurb: "The final portal sends visitors to GitHub, LinkedIn, and email." },
 ];
 
 const getPathX = (z: number) => Math.sin(z * 0.05) * 12 + Math.sin(z * 0.02) * 5;
@@ -134,6 +137,17 @@ function createPanelContent(config: PortfolioConfig, zoneId: string) {
             </div>
           ))}
         </div>
+        {config.achievements?.length ? (
+          <div className="achievement-board">
+            <span className="eyebrow">Milestones unlocked</span>
+            {config.achievements.map((achievement) => (
+              <div className="achievement-item" key={achievement.title}>
+                <span aria-hidden="true">✦</span>
+                <div><strong>{achievement.title}</strong><p>{achievement.detail}</p></div>
+              </div>
+            ))}
+          </div>
+        ) : null}
       </>
     );
   }
@@ -169,6 +183,7 @@ function createPanelContent(config: PortfolioConfig, zoneId: string) {
               <div className="pill-row">
                 {project.tags.map((tag) => <span className="pill" key={tag}>{tag}</span>)}
               </div>
+              {project.url ? <a className="project-source" href={project.url} target="_blank" rel="noopener noreferrer" aria-label={`View ${project.name} on GitHub`}>Explore source ↗</a> : null}
             </div>
           ))}
         </div>
@@ -290,17 +305,18 @@ export function PortfolioExperience() {
     renderer.outputColorSpace = THREE.SRGBColorSpace;
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x1a1a2e, 0.008);
+    scene.background = new THREE.Color(0x88d8f5);
+    scene.fog = new THREE.FogExp2(0xa9e4f8, 0.004);
 
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 700);
     camera.position.set(0, CAMERA_HEIGHT, CAMERA_DISTANCE);
 
     const composer = new EffectComposer(renderer);
     composer.addPass(new RenderPass(scene, camera));
-    composer.addPass(new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.2, 0.5, 0.2));
+    composer.addPass(new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.35, 0.3, 0.45));
 
-    scene.add(new THREE.AmbientLight(0xffffff, 0.7));
-    const mainLight = new THREE.DirectionalLight(0xffffff, 1.8);
+    scene.add(new THREE.AmbientLight(0xffffff, 1.3));
+    const mainLight = new THREE.DirectionalLight(0xfff3d2, 2.2);
     mainLight.position.set(14, 28, 18);
     scene.add(mainLight);
     const rimLight = new THREE.DirectionalLight(0x87a8ff, 1.1);
@@ -327,7 +343,7 @@ export function PortfolioExperience() {
       );
     }
     groundGeometry.computeVertexNormals();
-    const ground = new THREE.Mesh(groundGeometry, createAnimeMaterial(0x3f4b78));
+    const ground = new THREE.Mesh(groundGeometry, createAnimeMaterial(0x70c792));
     ground.position.z = -WORLD_LENGTH / 2;
     world.add(ground);
     addOutline(ground, 0.008);
@@ -565,7 +581,20 @@ export function PortfolioExperience() {
     character.add(leftArm, rightArm, leftLeg, rightLeg);
     [leftArm, rightArm, leftLeg, rightLeg].forEach((mesh) => addOutline(mesh, 0.02));
 
-    let targetTravel = 0;
+    let targetTravel = displayedTravelRef.current;
+    const handleNavigate = (event: Event) => {
+      const detail = (event as CustomEvent<{ progress: number }>).detail;
+      if (detail && Number.isFinite(detail.progress)) targetTravel = clamp(detail.progress, 0, 1);
+    };
+    window.addEventListener(ZONE_NAV_EVENT, handleNavigate);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (introOpen || event.altKey || event.ctrlKey || event.metaKey || event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) return;
+      if (event.key === "ArrowDown" || event.key === "PageDown") {event.preventDefault();targetTravel = clamp(targetTravel + 0.045, 0, 1);}
+      if (event.key === "ArrowUp" || event.key === "PageUp") {event.preventDefault();targetTravel = clamp(targetTravel - 0.045, 0, 1);}
+      if (event.key === "Home") {event.preventDefault();targetTravel = 0;}
+      if (event.key === "End") {event.preventDefault();targetTravel = 1;}
+    };
+    window.addEventListener("keydown", handleKeyDown);
     let isDragging = false;
     let pointerX = 0;
     let pointerY = 0;
@@ -574,11 +603,12 @@ export function PortfolioExperience() {
     let touchY = 0;
 
     const handleWheel = (event: WheelEvent) => {
-      if (introOpen) return;
+      if (introOpen || (event.target instanceof Element && event.target.closest(".panel, .checkpoint-rail, .intro-screen"))) return;
       targetTravel = clamp(targetTravel + event.deltaY * 0.00028, 0, 1);
     };
 
     const handlePointerDown = (event: PointerEvent) => {
+      if (!(event.target instanceof HTMLCanvasElement)) return;
       isDragging = true;
       pointerX = event.clientX;
       pointerY = event.clientY;
@@ -603,7 +633,7 @@ export function PortfolioExperience() {
     };
 
     const handleTouchMove = (event: TouchEvent) => {
-      if (introOpen) return;
+      if (introOpen || (event.target instanceof Element && event.target.closest(".panel, .checkpoint-rail, .intro-screen"))) return;
       const nextY = event.touches[0]?.clientY ?? touchY;
       targetTravel = clamp(targetTravel + (touchY - nextY) * 0.0022, 0, 1);
       touchY = nextY;
@@ -729,6 +759,8 @@ export function PortfolioExperience() {
     return () => {
       window.cancelAnimationFrame(animationId);
       window.clearTimeout(readyTimer);
+      window.removeEventListener(ZONE_NAV_EVENT, handleNavigate);
+      window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("wheel", handleWheel);
       window.removeEventListener("pointerdown", handlePointerDown);
       window.removeEventListener("pointermove", handlePointerMove);
@@ -788,17 +820,16 @@ export function PortfolioExperience() {
       {introOpen && isReady ? (
         <div className="intro-screen">
           <div className="intro-card">
-            <span className="eyebrow">3D Portfolio Generator v1.0</span>
+            <span className="eyebrow">Welcome to the world of Akash</span>
             <h1>{config.personal.name}</h1>
             <p>
-              {config.personal.title}. This world is a curved anime-style journey through experience, projects,
-              skills, education, and contact. Use scroll to move forward and drag to rotate the third-person camera.
+              Seven worlds, one story. Explore my work, discover the skills behind it, and see how ideas become real products. Scroll to travel, drag the scene to look around, or jump directly to a destination.
             </p>
             <div className="intro-actions">
               <button className="primary" onClick={() => setIntroOpen(false)} type="button">Enter the World</button>
               <a href="/resume.pdf" rel="noreferrer" target="_blank">Open Resume</a>
             </div>
-            <div className="mini-note">Best viewed locally first, then exported for static hosting.</div>
+            <div className="mini-note">No quests required to reach projects, experience, résumé or contact.</div>
           </div>
         </div>
       ) : null}
@@ -806,7 +837,7 @@ export function PortfolioExperience() {
       <div className="portfolio-overlay">
         <div className="hud-top">
           <div className="brand-chip">
-            <span className="eyebrow">Professional Portfolio</span>
+            <span className="eyebrow">Creative developer / 2027</span>
             <h1>{config.personal.name}</h1>
             <p>{config.personal.title}</p>
             <div className="brand-links">
@@ -820,9 +851,9 @@ export function PortfolioExperience() {
           </div>
 
           <div className="guide-card">
-            <span className="eyebrow">How To Explore</span>
-            <strong>Scroll to move forward</strong>
-            <p>Drag to rotate the camera. Each glowing checkpoint introduces a new section of the portfolio.</p>
+            <span className="eyebrow">Explorer controls</span>
+            <strong>Scroll • drag • jump</strong>
+            <p>Scroll or use arrow keys to travel. Drag the world to look around. Choose any destination on the map.</p>
           </div>
         </div>
 
@@ -841,19 +872,19 @@ export function PortfolioExperience() {
 
         <div className="checkpoint-rail">
           <div className="rail-card">
-            <span className="eyebrow">Section Checkpoints</span>
+            <span className="eyebrow">World map · choose destination</span>
             <div className="checkpoint-list">
               {zones.map((zone) => {
                 const isActive = zone.id === activeZone.id;
                 const isVisited = progress >= Math.abs(zone.end) / WORLD_LENGTH;
                 return (
-                  <div className={`checkpoint-item ${isActive ? "active" : ""} ${isVisited ? "visited" : ""}`} key={zone.id}>
+                  <button type="button" aria-current={isActive ? "step" : undefined} aria-label={`Visit ${zone.label}`} onClick={() => { setIntroOpen(false); window.dispatchEvent(new CustomEvent(ZONE_NAV_EVENT, { detail: { progress: clamp(Math.abs(getZoneMidpoint(zone)) / WORLD_LENGTH, 0, 1) } })); }} className={`checkpoint-item ${isActive ? "active" : ""} ${isVisited ? "visited" : ""}`} key={zone.id}>
                     <span className="checkpoint-dot" style={{ background: zone.accent }} />
                     <div>
                       <strong>{zone.label}</strong>
                       <p>{zone.id}</p>
                     </div>
-                  </div>
+                  </button>
                 );
               })}
             </div>
@@ -862,7 +893,7 @@ export function PortfolioExperience() {
 
         <div className="hud-bottom">
           <div className="progress-card">
-            <span className="eyebrow">Navigation Progress</span>
+            <span className="eyebrow">Adventure progress</span>
             <p>{Math.round(progress * 100)}% explored</p>
             <div className="progress-line">
               <div className="progress-fill" style={{ width: `${Math.max(progress, 0.02) * 100}%` }} />
@@ -877,7 +908,7 @@ export function PortfolioExperience() {
 
           <div className="summary-card">
             <span className="eyebrow">Quick Snapshot</span>
-            <p>Frontend Developer Intern at Springer Capital with a strong focus on modern product interfaces, full-stack delivery, and AI-driven systems.</p>
+            <p>Full-stack developer and applied AI researcher. Building better experiences, one meaningful interaction at a time.</p>
           </div>
         </div>
       </div>

@@ -1,26 +1,26 @@
 {
   "personal": {
     "name": "Akash Kumar Gosain",
-    "title": "Software Engineer • Full-Stack Developer • Applied AI Researcher",
+    "title": "Software Engineer | Systems, Linux & AI | B.Tech CSE 2027",
     "avatar": "https://github.com/Akash-gosain07.png",
     "bio": [
-      "Final-year B.Tech Computer Science & Engineering student (Class of 2027) at Silicon Institute of Technology, Sambalpur. I build useful software with a particular interest in product engineering, thoughtful interfaces and applied AI.",
-      "I have developed full-stack products and research prototypes through internships and projects, including the AI Viva System at NIT Silchar, frontend work at Springer Capital, and an e-commerce application at Vaidyas Technologies.",
-      "My research project, Human Friction Mapping Engine (HFME), studies where people struggle in multi-step digital workflows by analysing hesitation, re-edits, backtracking and time spent.",
-      "I enjoy the intersection of design, engineering and research: interfaces that are memorable, systems that work, and results I can explain."
+      "Final-year B.Tech Computer Science & Engineering student at Silicon Institute of Technology, Sambalpur (CGPA 8.56/10). Based in Rourkela, Odisha.",
+      "My technical foundations include C/C++, data structures, algorithms, operating systems, computer networks, Linux and Android.",
+      "Led the integration of a multi-module speech and LLM assessment application at NIT Silchar. At NIT Jamshedpur, enabled 4B-parameter model inference on a free-tier 16 GB T4 GPU using 4-bit NF4 quantization.",
+      "Seeking associate software engineering opportunities across systems, applied AI and full-stack development."
     ],
     "stats": [
       {
-        "label": "CGPA",
+        "label": "CGPA / 10",
         "value": "8.56"
       },
       {
-        "label": "Internship experiences",
+        "label": "Internships",
         "value": "4"
       },
       {
-        "label": "Hackathon",
-        "value": "Top 10"
+        "label": "PU Code rank",
+        "value": "7th"
       },
       {
         "label": "Graduation",
@@ -30,22 +30,22 @@
   },
   "experience": [
     {
-      "title": "AI Viva System — UI Module & Integration Lead",
+      "title": "Summer Intern — AI Software Development",
       "company": "NIT Silchar",
-      "period": "2026",
-      "description": "Led the student, faculty and admin interface module for a spoken-answer assessment system. Designed the UI workflow, coordinated the team and integrated its modules for the final demonstration."
+      "period": "June – July 2026",
+      "description": "Led the project team and integrated multiple modules into a speech/NLP/LLM viva assessment system. Implemented transcription, multilingual assessment, automated evaluation and personalized feedback workflows; built responsive student, faculty and admin interfaces for examination, monitoring and performance analytics using React.js, Node.js, MongoDB and REST APIs."
     },
     {
-      "title": "Research Internship",
+      "title": "Research Intern — Healthcare AI",
       "company": "NIT Jamshedpur",
-      "period": "2026",
-      "description": "Completed a research internship, building experience in technical problem-solving and academic collaboration."
+      "period": "May – July 2026 · Remote",
+      "description": "Enabled MedGemma-4B inference on a free-tier 16 GB T4 GPU using 4-bit NF4 quantization. Benchmarked it against five open-source vision-language models on VQA-RAD and SLAKE; measured accuracy, token-F1, latency in ms/question and peak GPU memory in a reproducible pipeline. Tools: Python, PyTorch, Hugging Face Transformers, PEFT, bitsandbytes and Linux."
     },
     {
       "title": "Frontend Developer Intern",
       "company": "Springer Capital",
-      "period": "2026",
-      "description": "Built responsive interfaces using React, TypeScript and Tailwind CSS, focused on usability, component quality and consistent behaviour across devices."
+      "period": "February – May 2026 · Remote",
+      "description": "Developed responsive cross-device interfaces using React.js, TypeScript and Tailwind CSS. Used component-driven architecture and structured state management to improve maintainability and team development speed."
     },
     {
       "title": "Full-Stack Developer Intern",
@@ -56,20 +56,24 @@
   ],
   "projects": [
     {
-      "name": "Human Friction Mapping Engine",
-      "description": "Research-led workflow analytics that measures time, hesitation, backtracking and corrections to surface friction points in user journeys. Conference paper accepted.",
+      "name": "HFME 2.0 — Human Friction Mapping Engine",
+      "description": "Built a full-stack platform with real-time event tracking, Isolation Forest anomaly detection and time-series forecasting. Containerized services with Docker and designed the architecture across FastAPI, PostgreSQL and Redis. Research paper accepted for conference publication.",
       "emoji": "01",
       "tags": [
-        "Human-Centred Computing",
-        "Analytics",
-        "Research",
-        "Full Stack"
+        "Next.js",
+        "TypeScript",
+        "FastAPI",
+        "PostgreSQL",
+        "Redis",
+        "Docker",
+        "Isolation Forest",
+        "Forecasting"
       ],
       "gradient": "linear-gradient(135deg, rgba(110, 238, 255, .24), rgba(105, 115, 255, .19))"
     },
     {
       "name": "Rebound — Lost & Found",
-      "description": "Top-10 hackathon finalist. A location-aware lost-and-found platform with 5-km proximity search, owner-to-finder OTP verification, temporary chat and handover feedback.",
+      "description": "Ranked 7th among 1000+ teams at PU Code Hackathon. A location-aware lost-and-found platform with 5-km proximity search, owner-to-finder OTP verification, temporary chat and handover feedback.",
       "emoji": "02",
       "tags": [
         "React",
@@ -84,25 +88,32 @@
     },
     {
       "name": "AI Viva System",
-      "description": "A spoken-response assessment experience with student, faculty and administrator views, recording/transcription flows, scoring feedback and analytics. UI module and integration leadership at NIT Silchar.",
+      "description": "Multi-module speech and LLM assessment system integrating transcription, multilingual assessment, automated evaluation and personalized feedback. Led team integration and built student, faculty and admin workflows, backed by REST APIs.",
       "emoji": "03",
       "tags": [
-        "React",
-        "UI Architecture",
-        "Speech-to-Text",
-        "NLP"
+        "React.js",
+        "Node.js",
+        "MongoDB",
+        "REST APIs",
+        "Speech Recognition",
+        "NLP",
+        "LLMs"
       ],
       "gradient": "linear-gradient(135deg, rgba(255, 192, 112, .26), rgba(255, 130, 176, .16))"
     },
     {
       "name": "Medical Visual Question Answering",
-      "description": "Explored medical visual question answering with MedGemma-4B-it, using medical image/question datasets and a vision-language inference workflow.",
+      "description": "Benchmarked MedGemma-4B against five open-source vision-language models using VQA-RAD and SLAKE. Enabled inference on a 16 GB T4 GPU using 4-bit NF4 quantization; evaluated accuracy, token-F1, latency and peak GPU memory.",
       "emoji": "04",
       "tags": [
         "Python",
-        "MedGemma",
-        "Vision-Language Models",
-        "Kaggle"
+        "PyTorch",
+        "Transformers",
+        "PEFT",
+        "bitsandbytes",
+        "NF4",
+        "Kaggle",
+        "Linux"
       ],
       "gradient": "linear-gradient(135deg, rgba(227, 177, 255, .26), rgba(121, 215, 255, .16))"
     },
@@ -122,110 +133,208 @@
   ],
   "skills": [
     {
+      "category": "Core computer science",
+      "items": [
+        {
+          "name": "Data Structures & Algorithms",
+          "level": ""
+        },
+        {
+          "name": "Operating Systems",
+          "level": ""
+        },
+        {
+          "name": "Computer Networks",
+          "level": ""
+        },
+        {
+          "name": "OOP",
+          "level": ""
+        },
+        {
+          "name": "DBMS",
+          "level": ""
+        }
+      ]
+    },
+    {
       "category": "Languages",
       "items": [
         {
-          "name": "TypeScript",
-          "level": "Advanced"
-        },
-        {
-          "name": "JavaScript",
-          "level": "Advanced"
-        },
-        {
-          "name": "Python",
-          "level": "Advanced"
-        },
-        {
-          "name": "Java",
-          "level": "Intermediate"
+          "name": "C",
+          "level": ""
         },
         {
           "name": "C++",
-          "level": "Intermediate"
+          "level": ""
+        },
+        {
+          "name": "Python",
+          "level": ""
+        },
+        {
+          "name": "Java",
+          "level": ""
+        },
+        {
+          "name": "JavaScript",
+          "level": ""
+        },
+        {
+          "name": "TypeScript",
+          "level": ""
+        },
+        {
+          "name": "SQL",
+          "level": ""
         }
       ]
     },
     {
-      "category": "Frontend",
+      "category": "Speech & AI",
       "items": [
         {
-          "name": "React",
-          "level": "Advanced"
+          "name": "Speech Recognition",
+          "level": ""
         },
         {
-          "name": "Next.js",
-          "level": "Advanced"
+          "name": "Audio/Speech Processing",
+          "level": ""
         },
         {
-          "name": "Tailwind CSS",
-          "level": "Advanced"
-        },
-        {
-          "name": "Framer Motion",
-          "level": "Advanced"
-        },
-        {
-          "name": "Vite",
-          "level": "Intermediate"
-        }
-      ]
-    },
-    {
-      "category": "Backend & AI",
-      "items": [
-        {
-          "name": "Node.js",
-          "level": "Advanced"
-        },
-        {
-          "name": "FastAPI",
-          "level": "Advanced"
-        },
-        {
-          "name": "scikit-learn",
-          "level": "Intermediate"
-        },
-        {
-          "name": "Isolation Forest",
-          "level": "Intermediate"
+          "name": "NLP",
+          "level": ""
         },
         {
           "name": "LLMs",
-          "level": "Intermediate"
+          "level": ""
         },
         {
-          "name": "PostgreSQL",
-          "level": "Intermediate"
+          "name": "Model Quantization",
+          "level": ""
         },
         {
-          "name": "Redis",
-          "level": "Intermediate"
+          "name": "PyTorch",
+          "level": ""
         },
         {
-          "name": "MongoDB",
-          "level": "Intermediate"
+          "name": "Hugging Face Transformers",
+          "level": ""
+        },
+        {
+          "name": "scikit-learn",
+          "level": ""
+        },
+        {
+          "name": "PEFT",
+          "level": ""
+        },
+        {
+          "name": "bitsandbytes",
+          "level": ""
+        },
+        {
+          "name": "Isolation Forest",
+          "level": ""
         }
       ]
     },
     {
-      "category": "Tools & Platforms",
+      "category": "Web & databases",
       "items": [
         {
-          "name": "Docker",
-          "level": "Intermediate"
+          "name": "React.js",
+          "level": ""
+        },
+        {
+          "name": "Next.js",
+          "level": ""
+        },
+        {
+          "name": "Tailwind CSS",
+          "level": ""
+        },
+        {
+          "name": "Node.js",
+          "level": ""
+        },
+        {
+          "name": "FastAPI",
+          "level": ""
+        },
+        {
+          "name": "REST APIs",
+          "level": ""
+        },
+        {
+          "name": "MongoDB",
+          "level": ""
+        },
+        {
+          "name": "PostgreSQL",
+          "level": ""
+        },
+        {
+          "name": "MySQL",
+          "level": ""
+        },
+        {
+          "name": "Redis",
+          "level": ""
+        }
+      ]
+    },
+    {
+      "category": "Platforms & tools",
+      "items": [
+        {
+          "name": "Linux",
+          "level": ""
+        },
+        {
+          "name": "Android",
+          "level": ""
         },
         {
           "name": "Git",
-          "level": "Advanced"
+          "level": ""
         },
         {
-          "name": "Linux",
-          "level": "Intermediate"
+          "name": "GitHub",
+          "level": ""
+        },
+        {
+          "name": "Docker",
+          "level": ""
+        },
+        {
+          "name": "Kaggle",
+          "level": ""
         },
         {
           "name": "VS Code",
-          "level": "Advanced"
+          "level": ""
+        }
+      ]
+    },
+    {
+      "category": "Professional strengths",
+      "items": [
+        {
+          "name": "Analytical problem solving",
+          "level": ""
+        },
+        {
+          "name": "Team collaboration",
+          "level": ""
+        },
+        {
+          "name": "Leadership",
+          "level": ""
+        },
+        {
+          "name": "Verbal and written communication",
+          "level": ""
         }
       ]
     }
@@ -242,25 +351,25 @@
       "degree": "Class XII (CBSE)",
       "institution": "Sou Vijayadevi Yadav English Medium School, Kolhapur",
       "period": "2022 - 2023",
-      "description": "Scored 79.0% and strengthened analytical, technical, and communication fundamentals.",
+      "description": "Class XII (CBSE): 75.0%.",
       "icon": "XII"
     },
     {
       "degree": "Class X (CBSE)",
       "institution": "Guru Nanak Public School, Rourkela",
       "period": "2020 - 2021",
-      "description": "Scored 85.6% and built early momentum in academics, discipline, and problem-solving.",
+      "description": "Class X (CBSE): 85.6%.",
       "icon": "X"
     }
   ],
   "certifications": [
     {
       "title": "Database Management Systems (Elite)",
-      "issuer": "NPTEL"
+      "issuer": "NPTEL · IIT Kharagpur"
     },
     {
-      "title": "Java",
-      "issuer": "NPTEL"
+      "title": "Programming in Java",
+      "issuer": "NPTEL · IIT Kharagpur"
     },
     {
       "title": "Microsoft Excel",
@@ -295,8 +404,8 @@
   },
   "achievements": [
     {
-      "title": "Top-10 Hackathon Finalist",
-      "detail": "Rebound reached the final top-10 teams at PU Code."
+      "title": "7th place — PU Code Hackathon",
+      "detail": "Ranked 7th among 1000+ teams, as stated in the latest résumé."
     },
     {
       "title": "Accepted Research Paper",
@@ -305,6 +414,14 @@
     {
       "title": "Placement Cell Leadership",
       "detail": "Served as student placement cell head, coordinating with peers and recruitment activities."
+    },
+    {
+      "title": "Chat.jpg Hackathon Finalist",
+      "detail": "Finalist at NIT Jamshedpur."
+    },
+    {
+      "title": "Designmania — 1st Runner-up",
+      "detail": "Silicon Coding Club, Silicon Institute of Technology."
     }
   ]
 }

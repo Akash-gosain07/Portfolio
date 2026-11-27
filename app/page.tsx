@@ -1,5 +1,4 @@
-import { PortfolioExperience } from "@/components/3d/PortfolioExperience";
+import Village from "@/components/3d/Village";
+import "./village.css";
 
-export default function Home() {
-  return <PortfolioExperience />;
-}
+export default function Home() { return <Village />; }

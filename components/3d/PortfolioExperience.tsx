@@ -257,6 +257,9 @@ export function PortfolioExperience() {
   const [config, setConfig] = useState<PortfolioConfig | null>(null);
   const [loadProgress, setLoadProgress] = useState(5);
   const [isReady, setIsReady] = useState(false);
+  const [flatMode, setFlatMode] = useState(false);
+  const [sceneUnavailable, setSceneUnavailable] = useState(false);
+  const introRef = useRef(true);
   const [introOpen, setIntroOpen] = useState(true);
   const [travel, setTravel] = useState(0);
   const [error, setError] = useState<string | null>(null);
@@ -296,14 +299,18 @@ export function PortfolioExperience() {
   }, []);
 
   useEffect(() => {
-    if (!config || !canvasRef.current) return;
+    if (!config || !canvasRef.current || flatMode) return;
 
     const canvas = canvasRef.current;
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
+    let renderer: THREE.WebGLRenderer;
+    try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: "high-performance" }); }
+    catch { setSceneUnavailable(true); setFlatMode(true); setIsReady(true); setIntroOpen(false); return; }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
 
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.05;
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x88d8f5);
     scene.fog = new THREE.FogExp2(0xc9e8ec, 0.006);
@@ -315,11 +322,11 @@ export function PortfolioExperience() {
     composer.addPass(new RenderPass(scene, camera));
     composer.addPass(new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.35, 0.3, 0.45));
 
-    scene.add(new THREE.AmbientLight(0xffffff, 1.3));
-    const mainLight = new THREE.DirectionalLight(0xfff3d2, 2.2);
+    scene.add(new THREE.HemisphereLight(0xeaf8ff, 0x698554, 2.0));
+    const mainLight = new THREE.DirectionalLight(0xfff3d2, 2.5);
     mainLight.position.set(14, 28, 18);
     scene.add(mainLight);
-    const rimLight = new THREE.DirectionalLight(0x87a8ff, 1.1);
+    const rimLight = new THREE.DirectionalLight(0x87a8ff, .65);
     rimLight.position.set(-18, 10, -12);
     scene.add(rimLight);
 
@@ -555,7 +562,7 @@ export function PortfolioExperience() {
     };
     window.addEventListener(ZONE_NAV_EVENT, handleNavigate);
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (introOpen || event.altKey || event.ctrlKey || event.metaKey || event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) return;
+      if (introRef.current || event.altKey || event.ctrlKey || event.metaKey || event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) return;
       if (event.key === "ArrowDown" || event.key === "PageDown") {event.preventDefault();targetTravel = clamp(targetTravel + 0.045, 0, 1);}
       if (event.key === "ArrowUp" || event.key === "PageUp") {event.preventDefault();targetTravel = clamp(targetTravel - 0.045, 0, 1);}
       if (event.key === "Home") {event.preventDefault();targetTravel = 0;}
@@ -570,7 +577,7 @@ export function PortfolioExperience() {
     let touchY = 0;
 
     const handleWheel = (event: WheelEvent) => {
-      if (introOpen || (event.target instanceof Element && event.target.closest(".panel, .checkpoint-rail, .intro-screen"))) return;
+      if (introRef.current || (event.target instanceof Element && event.target.closest(".panel, .checkpoint-rail, .intro-screen"))) return;
       targetTravel = clamp(targetTravel + event.deltaY * 0.00028, 0, 1);
     };
 
@@ -600,7 +607,7 @@ export function PortfolioExperience() {
     };
 
     const handleTouchMove = (event: TouchEvent) => {
-      if (introOpen || (event.target instanceof Element && event.target.closest(".panel, .checkpoint-rail, .intro-screen"))) return;
+      if (introRef.current || (event.target instanceof Element && event.target.closest(".panel, .checkpoint-rail, .intro-screen"))) return;
       const nextY = event.touches[0]?.clientY ?? touchY;
       targetTravel = clamp(targetTravel + (touchY - nextY) * 0.0022, 0, 1);
       touchY = nextY;
@@ -704,19 +711,19 @@ export function PortfolioExperience() {
 
       const dustAttr = dustGeometry.attributes.position as THREE.BufferAttribute;
       for (let i = 0; i < 1000; i += 1) {
-        let y = dustAttr.getY(i) + dustSpeeds[i];
+        let y = dustAttr.getY(i) + dustSpeeds[i] * (reducedMotion ? 0 : dt * 60);
         if (y > 10) y = 0;
         dustAttr.setY(i, y);
       }
-      dustAttr.needsUpdate = true;
+      dustAttr.needsUpdate = !reducedMotion;
 
       const streamerAttr = streamerGeometry.attributes.position as THREE.BufferAttribute;
       for (let i = 0; i < 600; i += 1) {
-        let y = streamerAttr.getY(i) - streamerSpeeds[i];
+        let y = streamerAttr.getY(i) - streamerSpeeds[i] * (reducedMotion ? 0 : dt * 60);
         if (y < -1) y = 14 + Math.random() * 16;
         streamerAttr.setY(i, y);
       }
-      streamerAttr.needsUpdate = true;
+      streamerAttr.needsUpdate = !reducedMotion;
 
       const cameraOffset = new THREE.Vector3(Math.sin(yaw) * CAMERA_DISTANCE, CAMERA_HEIGHT + pitch * 10, Math.cos(yaw) * CAMERA_DISTANCE);
       const desiredCamera = new THREE.Vector3(character.position.x, character.position.y, character.position.z).add(cameraOffset);
@@ -760,7 +767,9 @@ export function PortfolioExperience() {
         material.dispose();
       });
     };
-  }, [config, introOpen]);
+  }, [config, flatMode]);
+
+  useEffect(() => { introRef.current = introOpen; }, [introOpen]);
 
   if (error) {
     return (
@@ -789,14 +798,15 @@ export function PortfolioExperience() {
   }
 
   return (
-    <main className="portfolio-page">
-      <canvas className="portfolio-canvas" ref={canvasRef} />
-      {!isReady ? (
+    <main className={`portfolio-page ${flatMode ? "atlas-flat" : ""}`}>
+      {!flatMode && <canvas className="portfolio-canvas" ref={canvasRef} aria-hidden="true" />}
+      <button className="atlas-view-switch" type="button" onClick={() => { setIntroOpen(false); setIsReady(true); setFlatMode(v => !v); }} disabled={sceneUnavailable}>{flatMode ? (sceneUnavailable ? "Standard view" : "Return to 3D") : "Quick portfolio"}</button>
+      {!isReady && !flatMode ? (
         <div className="loading-screen">
           <div className="loading-card">
             <span className="eyebrow">Loading Scene</span>
-            <strong>Forging seven anime-inspired zones in 3D</strong>
-            <p>MeshToonMaterial, outlines, bloom, particles, and cinematic camera setup are coming online.</p>
+            <strong>Preparing the expedition</strong>
+            <p>Loading the terrain, landmarks and explorer.</p>
             <div className="loading-bar"><span style={{ width: `${loadProgress}%` }} /></div>
           </div>
         </div>
@@ -804,13 +814,14 @@ export function PortfolioExperience() {
       {introOpen && isReady ? (
         <div className="intro-screen">
           <div className="intro-card">
-            <span className="eyebrow">Welcome to the world of Akash</span>
+            <span className="eyebrow">ATLAS / A developer expedition</span>
             <h1>{config.personal.name}</h1>
             <p>
               Seven worlds, one story. Explore my work, discover the skills behind it, and see how ideas become real products. Scroll to travel, drag the scene to look around, or jump directly to a destination.
             </p>
             <div className="intro-actions">
               <button className="primary" onClick={() => setIntroOpen(false)} type="button">Enter the World</button>
+              <button type="button" onClick={() => { setIntroOpen(false); setFlatMode(true); }}>Quick portfolio</button>
               <a href="/resume.pdf" rel="noreferrer" target="_blank">Open Resume</a>
             </div>
             <div className="mini-note">No quests required to reach projects, experience, résumé or contact.</div>
@@ -842,7 +853,7 @@ export function PortfolioExperience() {
         </div>
 
         <div className="panel-shell">
-          <div className="panel">
+          <div className="panel" key={activeZone.id}>
             <div className="panel-heading">
               <div>
                 <span className="eyebrow">Current Section</span>
@@ -862,7 +873,7 @@ export function PortfolioExperience() {
                 const isActive = zone.id === activeZone.id;
                 const isVisited = progress >= Math.abs(zone.end) / WORLD_LENGTH;
                 return (
-                  <button type="button" aria-current={isActive ? "step" : undefined} aria-label={`Visit ${zone.label}`} onClick={() => { setIntroOpen(false); window.dispatchEvent(new CustomEvent(ZONE_NAV_EVENT, { detail: { progress: clamp(Math.abs(getZoneMidpoint(zone)) / WORLD_LENGTH, 0, 1) } })); }} className={`checkpoint-item ${isActive ? "active" : ""} ${isVisited ? "visited" : ""}`} key={zone.id}>
+                  <button type="button" aria-current={isActive ? "step" : undefined} aria-label={`Visit ${zone.label}`} onClick={() => { setIntroOpen(false); const next = clamp(Math.abs(getZoneMidpoint(zone)) / WORLD_LENGTH, 0, 1); if (flatMode) { displayedTravelRef.current = next; setTravel(next); } else { window.dispatchEvent(new CustomEvent(ZONE_NAV_EVENT, { detail: { progress: next } })); } }} className={`checkpoint-item ${isActive ? "active" : ""} ${isVisited ? "visited" : ""}`} key={zone.id}>
                     <span className="checkpoint-dot" style={{ background: zone.accent }} />
                     <div>
                       <strong>{zone.label}</strong>

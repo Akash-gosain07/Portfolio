@@ -13,9 +13,9 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Akash Kumar Gosain | Anime 3D Portfolio",
+  title: "Akash Kumar Gosain | Software Engineer · Interactive Portfolio",
   description:
-    "Interactive anime-inspired 3D portfolio for Akash Kumar Gosain, Frontend Developer Intern at Springer Capital and AI builder behind HFME 2.0.",
+    "Explore Akash Kumar Gosain’s interactive developer world: full-stack engineering, AI research, Rebound, HFME and experience at NIT Silchar and Springer Capital.",
 };
 
 export default function RootLayout({

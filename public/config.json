@@ -1,99 +1,232 @@
 {
   "personal": {
     "name": "Akash Kumar Gosain",
-    "title": "Pre-final Year CS Engineer | Frontend Developer | AI Researcher",
+    "title": "Software Engineer • Full-Stack Developer • Applied AI Researcher",
     "avatar": "https://github.com/Akash-gosain07.png",
     "bio": [
-      "Pre-final year Computer Science student from Rourkela, Odisha with a strong focus on cinematic frontend experiences, product polish, and scalable full-stack systems.",
-      "Currently working as a Frontend Developer Intern at Springer Capital, building responsive React and TypeScript interfaces with production-grade quality.",
-      "Leading HFME 2.0, an AI-powered Human Friction Mapping Engine focused on behavioral analytics, anomaly detection, predictive friction discovery, and workflow optimization.",
-      "Comfortable across TypeScript, React, Next.js, Python, FastAPI, databases, and applied AI workflows."
+      "Final-year B.Tech Computer Science & Engineering student (Class of 2027) at Silicon Institute of Technology, Sambalpur. I build useful software with a particular interest in product engineering, thoughtful interfaces and applied AI.",
+      "I have developed full-stack products and research prototypes through internships and projects, including the AI Viva System at NIT Silchar, frontend work at Springer Capital, and an e-commerce application at Vaidyas Technologies.",
+      "My research project, Human Friction Mapping Engine (HFME), studies where people struggle in multi-step digital workflows by analysing hesitation, re-edits, backtracking and time spent.",
+      "I enjoy the intersection of design, engineering and research: interfaces that are memorable, systems that work, and results I can explain."
     ],
     "stats": [
-      { "label": "Current CGPA", "value": "8.58" },
-      { "label": "Internships", "value": "2" },
-      { "label": "Flagship Projects", "value": "3+" },
-      { "label": "Base", "value": "Rourkela" }
+      {
+        "label": "CGPA",
+        "value": "8.59"
+      },
+      {
+        "label": "Internship experiences",
+        "value": "4"
+      },
+      {
+        "label": "Hackathon",
+        "value": "Top 10"
+      },
+      {
+        "label": "Graduation",
+        "value": "2027"
+      }
     ]
   },
   "experience": [
     {
-      "title": "Frontend Developer Intern",
-      "company": "Springer Capital",
-      "period": "March 2026 - Present",
-      "description": "Developing responsive, high-performance user interfaces with React, TypeScript, and Tailwind CSS while collaborating with backend and design teams to ship scalable production features."
+      "title": "AI Viva System — UI Module & Integration Lead",
+      "company": "NIT Silchar",
+      "period": "2026",
+      "description": "Led the student, faculty and admin interface module for a spoken-answer assessment system. Designed the UI workflow, coordinated the team and integrated its modules for the final demonstration."
     },
     {
-      "title": "Full Stack Development Intern",
-      "company": "Vaidsys Technologies",
-      "period": "June 2025 - July 2025",
-      "description": "Built UI components, backend logic, and API integrations for real-world applications, improving user experience and data flow in a fast-paced internship environment."
+      "title": "Research Internship",
+      "company": "NIT Jamshedpur",
+      "period": "2026",
+      "description": "Completed a research internship, building experience in technical problem-solving and academic collaboration."
+    },
+    {
+      "title": "Frontend Developer Intern",
+      "company": "Springer Capital",
+      "period": "2026",
+      "description": "Built responsive interfaces using React, TypeScript and Tailwind CSS, focused on usability, component quality and consistent behaviour across devices."
+    },
+    {
+      "title": "Full-Stack Developer Intern",
+      "company": "Vaidyas Technologies",
+      "period": "June – July 2025",
+      "description": "Developed an e-commerce web application and worked across frontend, backend and API integration."
     }
   ],
   "projects": [
     {
-      "name": "HFME 2.0",
-      "description": "Enterprise-grade AI platform for detecting, predicting, and removing user friction with real-time analytics, anomaly detection, forecasting, and LLM-powered insights.",
-      "emoji": "AI",
-      "tags": ["Next.js", "TypeScript", "FastAPI", "scikit-learn", "PostgreSQL", "Redis", "Docker"],
-      "gradient": "linear-gradient(135deg, rgba(104, 245, 255, 0.18), rgba(126, 141, 255, 0.18))"
+      "name": "Human Friction Mapping Engine",
+      "description": "Research-led workflow analytics that measures time, hesitation, backtracking and corrections to surface friction points in user journeys. Conference paper accepted.",
+      "emoji": "01",
+      "tags": [
+        "Human-Centred Computing",
+        "Analytics",
+        "Research",
+        "Full Stack"
+      ],
+      "gradient": "linear-gradient(135deg, rgba(110, 238, 255, .24), rgba(105, 115, 255, .19))"
     },
     {
-      "name": "Rebound",
-      "description": "Full-stack lost and found platform with intelligent matching, OTP verification, interactive maps, and a recovery workflow designed for real people and real places.",
-      "emoji": "MAP",
-      "tags": ["React", "Vite", "Tailwind CSS", "Framer Motion", "Node.js", "MongoDB"],
-      "gradient": "linear-gradient(135deg, rgba(104, 245, 255, 0.15), rgba(88, 255, 176, 0.15))"
+      "name": "Rebound — Lost & Found",
+      "description": "Top-10 hackathon finalist. A location-aware lost-and-found platform with 5-km proximity search, owner-to-finder OTP verification, temporary chat and handover feedback.",
+      "emoji": "02",
+      "tags": [
+        "React",
+        "TypeScript",
+        "Node.js",
+        "MongoDB",
+        "Mapbox",
+        "Socket.io"
+      ],
+      "gradient": "linear-gradient(135deg, rgba(122, 250, 164, .25), rgba(68, 188, 248, .18))",
+      "url": "https://github.com/Akash-gosain07/Rebound"
     },
     {
-      "name": "CV Generator",
-      "description": "ATS-friendly resume builder SaaS with live editing, autosave, Indian-optimized templates, one-click PDF export, and conversion-focused UI design.",
-      "emoji": "CV",
-      "tags": ["React", "TypeScript", "Tailwind CSS", "Framer Motion", "Node.js"],
-      "gradient": "linear-gradient(135deg, rgba(255, 95, 230, 0.18), rgba(255, 215, 111, 0.15))"
+      "name": "AI Viva System",
+      "description": "A spoken-response assessment experience with student, faculty and administrator views, recording/transcription flows, scoring feedback and analytics. UI module and integration leadership at NIT Silchar.",
+      "emoji": "03",
+      "tags": [
+        "React",
+        "UI Architecture",
+        "Speech-to-Text",
+        "NLP"
+      ],
+      "gradient": "linear-gradient(135deg, rgba(255, 192, 112, .26), rgba(255, 130, 176, .16))"
+    },
+    {
+      "name": "Medical Visual Question Answering",
+      "description": "Explored medical visual question answering with MedGemma-4B-it, using medical image/question datasets and a vision-language inference workflow.",
+      "emoji": "04",
+      "tags": [
+        "Python",
+        "MedGemma",
+        "Vision-Language Models",
+        "Kaggle"
+      ],
+      "gradient": "linear-gradient(135deg, rgba(227, 177, 255, .26), rgba(121, 215, 255, .16))"
+    },
+    {
+      "name": "E-commerce Application",
+      "description": "Full-stack storefront developed during my Vaidyas Technologies internship, covering product browsing, user-facing flows and backend integration.",
+      "emoji": "05",
+      "tags": [
+        "React",
+        "Node.js",
+        "REST APIs",
+        "Full Stack"
+      ],
+      "gradient": "linear-gradient(135deg, rgba(255, 217, 114, .25), rgba(164, 240, 181, .19))",
+      "url": "https://github.com/Akash-gosain07/ecommerce"
     }
   ],
   "skills": [
     {
       "category": "Languages",
       "items": [
-        { "name": "TypeScript", "level": "Advanced" },
-        { "name": "JavaScript", "level": "Advanced" },
-        { "name": "Python", "level": "Advanced" },
-        { "name": "Java", "level": "Intermediate" },
-        { "name": "C++", "level": "Intermediate" }
+        {
+          "name": "TypeScript",
+          "level": "Advanced"
+        },
+        {
+          "name": "JavaScript",
+          "level": "Advanced"
+        },
+        {
+          "name": "Python",
+          "level": "Advanced"
+        },
+        {
+          "name": "Java",
+          "level": "Intermediate"
+        },
+        {
+          "name": "C++",
+          "level": "Intermediate"
+        }
       ]
     },
     {
       "category": "Frontend",
       "items": [
-        { "name": "React", "level": "Advanced" },
-        { "name": "Next.js", "level": "Advanced" },
-        { "name": "Tailwind CSS", "level": "Advanced" },
-        { "name": "Framer Motion", "level": "Advanced" },
-        { "name": "Vite", "level": "Intermediate" }
+        {
+          "name": "React",
+          "level": "Advanced"
+        },
+        {
+          "name": "Next.js",
+          "level": "Advanced"
+        },
+        {
+          "name": "Tailwind CSS",
+          "level": "Advanced"
+        },
+        {
+          "name": "Framer Motion",
+          "level": "Advanced"
+        },
+        {
+          "name": "Vite",
+          "level": "Intermediate"
+        }
       ]
     },
     {
       "category": "Backend & AI",
       "items": [
-        { "name": "Node.js", "level": "Advanced" },
-        { "name": "FastAPI", "level": "Advanced" },
-        { "name": "scikit-learn", "level": "Intermediate" },
-        { "name": "Isolation Forest", "level": "Intermediate" },
-        { "name": "LLMs", "level": "Intermediate" },
-        { "name": "PostgreSQL", "level": "Intermediate" },
-        { "name": "Redis", "level": "Intermediate" },
-        { "name": "MongoDB", "level": "Intermediate" }
+        {
+          "name": "Node.js",
+          "level": "Advanced"
+        },
+        {
+          "name": "FastAPI",
+          "level": "Advanced"
+        },
+        {
+          "name": "scikit-learn",
+          "level": "Intermediate"
+        },
+        {
+          "name": "Isolation Forest",
+          "level": "Intermediate"
+        },
+        {
+          "name": "LLMs",
+          "level": "Intermediate"
+        },
+        {
+          "name": "PostgreSQL",
+          "level": "Intermediate"
+        },
+        {
+          "name": "Redis",
+          "level": "Intermediate"
+        },
+        {
+          "name": "MongoDB",
+          "level": "Intermediate"
+        }
       ]
     },
     {
       "category": "Tools & Platforms",
       "items": [
-        { "name": "Docker", "level": "Intermediate" },
-        { "name": "Git", "level": "Advanced" },
-        { "name": "Linux", "level": "Intermediate" },
-        { "name": "VS Code", "level": "Advanced" }
+        {
+          "name": "Docker",
+          "level": "Intermediate"
+        },
+        {
+          "name": "Git",
+          "level": "Advanced"
+        },
+        {
+          "name": "Linux",
+          "level": "Intermediate"
+        },
+        {
+          "name": "VS Code",
+          "level": "Advanced"
+        }
       ]
     }
   ],
@@ -102,7 +235,7 @@
       "degree": "B.Tech in Computer Science & Engineering",
       "institution": "Silicon Institute of Technology, Sambalpur",
       "period": "August 2023 - July 2027",
-      "description": "Current CGPA: 8.58. Building strong foundations in software engineering while actively shipping full-stack and AI products.",
+      "description": "CGPA: 8.59. B.Tech CSE, graduating in 2027. Focus: full-stack engineering, data, AI and practical software projects.",
       "icon": "EDU"
     },
     {
@@ -121,18 +254,57 @@
     }
   ],
   "certifications": [
-    { "title": "Database Management Systems (Elite)", "issuer": "NPTEL" },
-    { "title": "Java", "issuer": "NPTEL" },
-    { "title": "Microsoft Excel", "issuer": "Coursera" }
+    {
+      "title": "Database Management Systems (Elite)",
+      "issuer": "NPTEL"
+    },
+    {
+      "title": "Java",
+      "issuer": "NPTEL"
+    },
+    {
+      "title": "Microsoft Excel",
+      "issuer": "Coursera"
+    }
   ],
   "contact": {
-    "greeting": "Let's build something memorable.",
-    "message": "I enjoy collaborating on product-focused frontend engineering, immersive interfaces, AI-powered apps, and full-stack systems that feel polished in the real world.",
+    "greeting": "Got a problem worth solving?",
+    "message": "I'm open to software engineering opportunities, frontend and full-stack collaboration, and research-minded product teams. Explore the work, read the code, or get in touch.",
     "links": [
-      { "icon": "in", "text": "LinkedIn", "url": "https://www.linkedin.com/in/akash-kumar-gosain-389989293/" },
-      { "icon": "gh", "text": "GitHub", "url": "https://github.com/Akash-gosain07" },
-      { "icon": "@", "text": "Email", "url": "mailto:akashkumargosain@gmail.com" },
-      { "icon": "ph", "text": "Call", "url": "tel:+917735699864" }
+      {
+        "icon": "in",
+        "text": "LinkedIn",
+        "url": "https://www.linkedin.com/in/akash-kumar-gosain-389989293/"
+      },
+      {
+        "icon": "gh",
+        "text": "GitHub",
+        "url": "https://github.com/Akash-gosain07"
+      },
+      {
+        "icon": "@",
+        "text": "Email",
+        "url": "mailto:akashkumargosain@gmail.com"
+      },
+      {
+        "icon": "ph",
+        "text": "Call",
+        "url": "tel:+917735699864"
+      }
     ]
-  }
+  },
+  "achievements": [
+    {
+      "title": "Top-10 Hackathon Finalist",
+      "detail": "Rebound reached the final top-10 teams at PU Code."
+    },
+    {
+      "title": "Accepted Research Paper",
+      "detail": "HFME research paper accepted for conference publication."
+    },
+    {
+      "title": "Placement Cell Leadership",
+      "detail": "Served as student placement cell head, coordinating with peers and recruitment activities."
+    }
+  ]
 }

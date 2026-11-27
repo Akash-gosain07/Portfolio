@@ -647,3 +647,138 @@ canvas {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+
+/* SUNLIT WORLD — an accessible, colourful layer over the existing 3D experience */
+:root {
+  --bg-top: #8adcf6;
+  --bg-mid: #c4f5e1;
+  --bg-bottom: #ffe9b6;
+  --panel: rgba(255, 253, 244, 0.90);
+  --panel-border: rgba(33, 75, 93, 0.14);
+  --text-main: #163449;
+  --text-soft: #4d6370;
+  --cyan: #007b90;
+  --magenta: #aa327d;
+  --gold: #9b5700;
+}
+body {background:#b9edf1;}
+.portfolio-page {
+  background: radial-gradient(circle at 15% 10%, #fff3bc 0,transparent 35%),
+    radial-gradient(circle at 85% 70%, #a7e8c9 0,transparent 32%),
+    linear-gradient(135deg,#a2e6f5,#d4f5c5 55%,#ffe6a8);
+}
+.portfolio-canvas {filter:saturate(1.17);}
+.brand-chip,.guide-card,.panel,.rail-card,.progress-card,.summary-card,.loading-card,.intro-card {
+  background:var(--panel);
+  border:2px solid rgba(36,92,102,.18);
+  box-shadow:0 10px 0 rgba(24,91,115,.10),0 26px 55px rgba(31,91,104,.16);
+  backdrop-filter:blur(24px);
+}
+.brand-chip {border-radius:24px;max-width:410px;}
+.brand-chip h1 {font-size:clamp(1.45rem,2.35vw,2.35rem);line-height:1.03;letter-spacing:-.035em;}
+.brand-chip p {font-size:.87rem;line-height:1.5;}
+.eyebrow {
+  color:#11647c;letter-spacing:.13em;font-size:.68rem;font-weight:800;
+  background:rgba(62,178,193,.15);border:1px solid rgba(25,133,153,.16)
+}
+.brand-links a,.intro-actions a,.intro-actions button,.panel-actions a {
+  color:#173b4d;background:#fff;border:2px solid rgba(27,81,99,.16);
+  box-shadow:0 4px 0 rgba(19,90,102,.12);cursor:pointer;
+}
+.brand-links a.primary,.intro-actions .primary,.panel-actions a.primary {
+  background:#ffda76;border-color:#c79431;color:#47311c;
+}
+.brand-links a:hover,.intro-actions a:hover,.intro-actions button:hover,.panel-actions a:hover {
+  background:#f8eec7;transform:translateY(-3px);box-shadow:0 6px 0 rgba(19,90,102,.12)
+}
+:focus-visible {outline:3px solid #d8588a!important;outline-offset:3px;}
+.panel-shell {top:155px;bottom:112px;width:min(440px,calc(100vw - 40px));}
+.panel {border-radius:28px;scrollbar-color:#80c3bd transparent;scrollbar-width:thin;}
+.panel h2 {font-size:clamp(1.4rem,2vw,1.85rem);letter-spacing:-.025em;}
+.panel-heading {border-bottom-color:rgba(37,83,97,.13);}
+.stat-item,.entry-card,.skill-card,.contact-card {
+  background:rgba(255,255,255,.8);border:1px solid rgba(33,85,91,.15);
+  box-shadow:0 3px 0 rgba(38,95,102,.07);
+}
+.entry-card {transition:transform .2s ease,box-shadow .2s ease;}
+.entry-card:hover {transform:translateY(-3px);box-shadow:0 8px 0 rgba(38,95,102,.09);}
+.entry-card p,.skill-card p {line-height:1.55;margin-top:8px;}
+.pill {background:#e5f8e9;color:#20574f;border:1px solid #bde5d0;}
+.skill-level {color:#607c79;}
+.checkpoint-rail {width:270px;top:155px;}
+.checkpoint-list {gap:8px;}
+.checkpoint-item {
+  appearance:none;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;
+  background:rgba(255,255,255,.72);border:1px solid #d4e7e7;opacity:.9;
+  transition:background .18s ease,transform .18s ease,box-shadow .18s ease;
+}
+.checkpoint-item:hover {background:#fff;transform:translateX(-4px);}
+.checkpoint-item.active {
+  background:#fbe3a1;border-color:#dcac4d;box-shadow:0 3px 0 rgba(189,123,33,.15);
+}
+.checkpoint-item strong {font-size:.85rem;}
+.checkpoint-item p {color:#628080;}
+.checkpoint-dot {box-shadow:0 0 0 3px rgba(255,255,255,.85);}
+.progress-card {min-width: min(390px,calc(100vw - 40px));}
+.progress-line {height:9px;background:#deece9;}
+.progress-fill {background:linear-gradient(90deg,#33b5c4,#6dc88c,#ffc25a);}
+.dot {background:#d0e5e1;}
+.dot.active {background:#42bfb3;box-shadow:none;}
+.summary-card {max-width:320px;}
+.summary-card p {line-height:1.55;font-size:.85rem;}
+.intro-screen {background:rgba(45,102,121,.26);backdrop-filter:blur(13px);}
+.intro-card {background:#fffdf5;max-width:640px;position:relative;}
+.intro-card::before {
+  content:"✦  ✳  ✦";display:block;color:#eb9761;font-size:1.7rem;letter-spacing:1em;
+}
+.intro-card h1 {color:#193e52;letter-spacing:-.05em;}
+.intro-card p {color:#536b73;}
+.loading-screen {background:#d4f4e8;}
+.loading-card {background:#fffdf5;}
+.loading-bar {background:#e0ebe5;}
+.loading-bar span {background:linear-gradient(90deg,#5ccfbc,#efbc6a);}
+.achievement-board {margin-top:20px;display:grid;gap:10px;}
+.achievement-item {display:flex;gap:12px;padding:14px;border-radius:16px;background:#fff5d9;border:1px solid #edd9ac;}
+.achievement-item>span {color:#d28c29;font-size:1.6rem;}
+.achievement-item strong {display:block;font-size:.9rem;}
+.achievement-item p {margin-top:4px;line-height:1.45;font-size:.85rem;}
+.project-source {display:inline-flex;margin-top:14px;font-weight:800;color:#06798a;text-decoration:underline;text-underline-offset:4px;}
+.project-source:hover {color:#a04479;}
+.contact-card {overflow-wrap:anywhere;}
+@media (max-width: 900px) and (min-width: 641px) {
+ .checkpoint-rail {top:auto;bottom:115px;width:245px;}
+ .panel-shell {right:285px;top:170px;bottom:115px;}
+ .guide-card {display:none;}
+}
+@media (max-width:640px) {
+ .hud-top {top:10px;left:10px;right:10px;}
+ .brand-chip {padding:12px;max-width:100%;}
+ .brand-chip h1 {font-size:1.32rem;margin:6px 0;}
+ .brand-chip p {font-size:.72rem;}
+ .brand-links {margin-top:8px;gap:6px;}
+ .brand-links a {width:auto;padding:7px 10px;font-size:.75rem;}
+ .guide-card,.summary-card,.progress-card {display:none;}
+ .panel-shell {top:155px;left:10px;right:10px;bottom:128px;width:auto;max-width:none;}
+ .panel {padding:16px;}
+ .checkpoint-rail {left:10px;right:10px;bottom:10px;width:auto;top:auto;}
+ .rail-card {padding:10px 12px;}
+ .checkpoint-list {display:flex;overflow-x:auto;gap:7px;margin-top:8px;padding-bottom:5px;scrollbar-width:thin;}
+ .checkpoint-item {display:flex;align-items:center;flex:none;width:auto;min-width:100px;padding:9px 10px;gap:8px;}
+ .checkpoint-item strong {font-size:.7rem;}
+ .checkpoint-item p {display:none;}
+ .checkpoint-dot {flex:none;width:9px;height:9px;margin:0;}
+ .stat-grid {grid-template-columns:repeat(2,minmax(0,1fr));}
+ .intro-card {padding:22px;}
+}
+@media (max-height:620px) and (min-width:641px) {
+ .hud-top {top:10px;}
+ .panel-shell {top:115px;bottom:80px;}
+ .checkpoint-rail {top:115px;}
+ .hud-bottom {bottom:8px;}
+ .guide-card {display:none;}
+}
+@media (prefers-reduced-motion:reduce) {
+ *,*::before,*::after {animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important;}
+ .portfolio-canvas {filter:none;}
+}

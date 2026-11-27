@@ -782,3 +782,32 @@ body {background:#b9edf1;}
  *,*::before,*::after {animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important;}
  .portfolio-canvas {filter:none;}
 }
+
+/* ATLAS: a travel journal, not a generic dashboard. */
+.atlas-view-switch {position:fixed;z-index:8;right:22px;bottom:24px;border:2px solid #2e5960;background:#fff9e8;color:#244650;padding:10px 17px;border-radius:8px;box-shadow:0 4px 0 #2e5960;font-weight:800;cursor:pointer;}
+.atlas-view-switch:disabled {cursor:default;opacity:.8;}
+.portfolio-page:not(.atlas-flat) .summary-card {display:none;}
+.brand-chip,.panel,.rail-card,.progress-card,.intro-card {border-radius:12px;background:#fffbeded;border-color:#3d645b;box-shadow:0 4px 0 #3d645b,0 12px 32px #163c3930;}
+.brand-chip h1,.panel h2,.intro-card h1 {font-family:var(--font-body),sans-serif;letter-spacing:-.055em;}
+.eyebrow {border-radius:3px;background:#e9ecd8;color:#3b6055;border:0;letter-spacing:.12em;}
+.intro-card {text-align:left;padding:36px;border:2px solid #3d645b;}
+.intro-card::before {content:"ATLAS  /  FIELD NOTES  /  01";font-size:.72rem;letter-spacing:.22em;color:#627d66;border-bottom:1px solid #c8d2bd;padding-bottom:14px;}
+.intro-card p {margin:0;line-height:1.65;}
+.intro-actions {justify-content:flex-start;}
+.intro-actions button,.intro-actions a,.brand-links a,.panel-actions a {border-radius:7px;}
+.checkpoint-item {border-radius:6px;}
+.checkpoint-item.active {background:#f6d68a;border-color:#af8039;}
+.atlas-flat {background:linear-gradient(135deg,#e8eed8,#f8ebc9);}
+.atlas-flat .guide-card {display:none;}
+.atlas-flat .panel-shell {width:auto;right:310px;}
+.atlas-flat .panel {background:#fffbed;max-width:900px;}
+.atlas-flat .panel h2 {font-size:2.2rem;}
+.atlas-flat .card-list {grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}
+.atlas-flat .summary-card {display:none;}
+@media(max-width:640px) {
+ .atlas-view-switch {bottom:112px;right:16px;font-size:.7rem;padding:7px 10px;}
+ .panel-shell,.atlas-flat .panel-shell {bottom:160px;right:10px;width:auto;}
+ .intro-card {padding:22px;}
+ .atlas-flat .card-list {grid-template-columns:1fr;}
+ .atlas-flat .panel h2 {font-size:1.45rem;}
+}

@@ -96,8 +96,18 @@ export function populateLandscape(world: THREE.Group, pathX: (z:number)=>number)
   const points:THREE.Vector3[]=[];
   for(let z=0;z<=300;z+=2)points.push(new THREE.Vector3(pathX(z),.48,-z));
   const curve=new THREE.CatmullRomCurve3(points);
-  const road=new THREE.Mesh(new THREE.TubeGeometry(curve,180,2.25,8,false),sandM);
-  road.scale.y=.13;road.position.y=.22;group.add(road);
+  const vertices:number[]=[], indices:number[]=[];
+  for(let i=0;i<=180;i++){
+    const t=i/180,p=curve.getPoint(t),d=curve.getTangent(t);
+    const nx=-d.z,nz=d.x;
+    vertices.push(p.x+nx*2.25,.45,p.z+nz*2.25,p.x-nx*2.25,.45,p.z-nz*2.25);
+    if(i<180){const a=i*2;indices.push(a,a+2,a+1,a+1,a+2,a+3);}
+  }
+  const roadGeometry=new THREE.BufferGeometry();
+  roadGeometry.setAttribute("position",new THREE.Float32BufferAttribute(vertices,3));
+  roadGeometry.setIndex(indices);roadGeometry.computeVertexNormals();
+  sandM.side=THREE.DoubleSide;
+  const road=new THREE.Mesh(roadGeometry,sandM);group.add(road);
   // Distant mountains framing the trail.
   for(let i=0;i<20;i++){
     const z=-i*17,side=i%2?1:-1,x=side*(36+rnd()*24),h=10+rnd()*20;

@@ -2,13 +2,13 @@ import * as THREE from "three";
 import { createExplorer } from "./ExpeditionWorld";
 
 export const places = [
-  {id:"home",name:"Home base",x:0,z:9,color:0xb87955,instruction:"Proceed to home base. Press E or tap Explore at the entrance for the briefing."},
-  {id:"experience",name:"Career command",x:-10,z:0,color:0x728b79,instruction:"Proceed west to career command. Discover my internships and professional experience."},
-  {id:"projects",name:"Project depot",x:10,z:0,color:0x8b7861,instruction:"Proceed east to the project depot. Explore the products and research I have built."},
-  {id:"skills",name:"Engineering lab",x:-10,z:-12,color:0x6d8791,instruction:"Visit the engineering lab to discover my technical toolkit."},
-  {id:"education",name:"Records office",x:10,z:-12,color:0xa28a65,instruction:"Proceed to the records office to learn about my education and certifications."},
-  {id:"achievements",name:"Honours hall",x:0,z:-23,color:0xa77457,instruction:"Proceed north to the honours hall and discover my achievements."},
-  {id:"contact",name:"Comms station",x:0,z:23,color:0x967b69,instruction:"Proceed to the comms station to get in touch or download my résumé."}
+  {id:"home",name:"Home base",x:0,z:9,color:0xb87955,instruction:"Great to have you here! Let us start at home base. Walk up to the entrance, then select Explore."},
+  {id:"experience",name:"Career command",x:-10,z:0,color:0x728b79,instruction:"Nice work! Head over to career command to discover my internships and professional experience."},
+  {id:"projects",name:"Project depot",x:10,z:0,color:0x8b7861,instruction:"Ready for the next discovery? Visit the project depot to see the products and research I have built."},
+  {id:"skills",name:"Engineering lab",x:-10,z:-12,color:0x6d8791,instruction:"Fantastic! Let us visit the engineering lab and discover the technologies I work with."},
+  {id:"education",name:"Records office",x:10,z:-12,color:0xa28a65,instruction:"Next up is the records office. Come and explore my education and certifications."},
+  {id:"achievements",name:"Honours hall",x:0,z:-23,color:0xa77457,instruction:"You are doing great! Head to the honours hall to discover some of my favourite milestones."},
+  {id:"contact",name:"Comms station",x:0,z:23,color:0x967b69,instruction:"One last stop! Visit the comms station to connect with me or download my resume. Thanks for exploring!"}
 ] as const;
 export type PlaceId = typeof places[number]["id"];
 export type Place = typeof places[number];
@@ -16,7 +16,7 @@ export type Position = {x:number;z:number};
 export const doorway = (p:Place):Position => ({x:p.x,z:p.z+3.65});
 export const groundHeight = (x:number,z:number) => {
   const edge=Math.max(0,Math.abs(x)-20,Math.abs(z)-30);
-  return (1-Math.exp(-edge*.065))*(3.8+2.4*Math.sin(x*.11)*Math.cos(z*.09));
+  return (1-Math.exp(-edge*.045))*(6.5+3.2*Math.sin(x*.07)*Math.cos(z*.095)+1.6*Math.cos(x*.16+z*.11));
 };
 export function canWalk(x:number,z:number){
   return Math.abs(x)<18 && Math.abs(z)<30 && !places.some(p=>Math.abs(x-p.x)<3.35 && Math.abs(z-p.z)<3.15);
@@ -93,15 +93,18 @@ export function buildVillage(scene:THREE.Scene){
   }
   // Instanced natural scenery outside the playable village.
   const cone=new THREE.ConeGeometry(1,2,7),trunkGeo=new THREE.CylinderGeometry(.13,.24,1,7);
-  const trees=210, crowns=new THREE.InstancedMesh(cone,leaf,trees*2), trunks=new THREE.InstancedMesh(trunkGeo,wood,trees);
+  const trees=260, crowns=new THREE.InstancedMesh(cone,leaf,trees*3), trunks=new THREE.InstancedMesh(trunkGeo,wood,trees);
   const dummy=new THREE.Object3D();
   for(let i=0;i<trees;i++){
-    const angle=random()*Math.PI*2,rx=34+random()*65,rz=50+random()*55;
+    const angle=random()*Math.PI*2,rx=28+random()*74,rz=39+random()*64;
     const x=Math.cos(angle)*rx,z=Math.sin(angle)*rz,y=groundHeight(x,z),h=1.5+random()*3.0;
     dummy.position.set(x,y+h*.33,z);dummy.rotation.set(0,random()*6.28,0);dummy.scale.set(1,h*.66,1);dummy.updateMatrix();trunks.setMatrixAt(i,dummy.matrix);
-    for(let j=0;j<2;j++){dummy.position.set(x,y+h*(.78+j*.33),z);dummy.scale.set(h*(.42-j*.12),h*.65,h*(.42-j*.12));dummy.updateMatrix();crowns.setMatrixAt(i*2+j,dummy.matrix);}
+    for(let j=0;j<3;j++){dummy.position.set(x,y+h*(.7+j*.29),z);dummy.scale.set(h*(.44-j*.105),h*.60,h*(.44-j*.105));dummy.updateMatrix();crowns.setMatrixAt(i*3+j,dummy.matrix);crowns.setColorAt(i*3+j,new THREE.Color().setHSL(.25+random()*.045,.18+random()*.10,.63+random()*.22));}
   }
   root.add(crowns,trunks);
+  // Low-cost instanced grasses and stones around the compound perimeter. All remain outside the walkable area.
+  const scrub=new THREE.InstancedMesh(new THREE.ConeGeometry(.20,.65,4),mat(0x8b9273),420);
+  for(let i=0;i<420;i++){const side=i%2?1:-1;const x=side*(18.4+random()*8),z=(random()-.5)*75;dummy.position.set(x,groundHeight(x,z)+.20,z);dummy.rotation.set(.08,random()*Math.PI*2,.12);dummy.scale.set(.8+random(),.5+random(),.8+random());dummy.updateMatrix();scrub.setMatrixAt(i,dummy.matrix);scrub.setColorAt(i,new THREE.Color().setHSL(.21+random()*.06,.12+random()*.12,.55+random()*.28));}root.add(scrub);
   const rockGeo=new THREE.IcosahedronGeometry(1,0),rocks=new THREE.InstancedMesh(rockGeo,stone,95);
   for(let i=0;i<95;i++){const x=(random()-.5)*170,z=(random()-.5)*170;if(Math.abs(x)<29&&Math.abs(z)<44){dummy.scale.setScalar(0);}else{dummy.scale.set(.4+random()*2,.35+random()*1.4,.5+random()*2);}dummy.position.set(x,groundHeight(x,z)+.2,z);dummy.rotation.set(.2,random()*6,.1);dummy.updateMatrix();rocks.setMatrixAt(i,dummy.matrix);}root.add(rocks);
   // Alpine silhouettes and layered foothills.
@@ -118,6 +121,9 @@ export function buildVillage(scene:THREE.Scene){
   const water=new THREE.Mesh(new THREE.CircleGeometry(1.05,32),glass);water.rotation.x=-Math.PI/2;water.position.set(4,.79,-4);root.add(water);
   // Utility crates and low concrete barriers outside the main walkways.
   for(const side of [-1,1]){for(let i=0;i<5;i++){const z=-24+i*10;box(root,1.2,1.15,1.2,wood,side*16.8,.58,z);box(root,1.26,.13,1.26,stone,side*16.8,1.18,z);}}
+  // Perimeter lights and directional signs bring the compound to life without extra realtime lights.
+  const fixture=mat(0x4a514b),lamp=new THREE.MeshStandardMaterial({color:0xe2d7b0,emissive:0xdbc18b,emissiveIntensity:.32,roughness:.6});
+  for(const side of [-1,1]){for(const z of [-26,-14,-2,10,22]){const x=side*17.7;const pole=new THREE.Mesh(new THREE.CylinderGeometry(.045,.065,2.8,6),fixture);pole.position.set(x,1.4,z);root.add(pole);box(root,.34,.13,.23,lamp,x,2.77,z);}}
   const avatar=createExplorer();avatar.root.scale.setScalar(.82);root.add(avatar.root);
   return {root,avatar};
 }

@@ -5,7 +5,8 @@
     "avatar": "https://github.com/Akash-gosain07.png",
     "bio": [
       "Final-year B.Tech Computer Science & Engineering student at Silicon Institute of Technology, Sambalpur (CGPA 8.56/10). Based in Rourkela, Odisha.",
-      "My technical foundations include C/C++, data structures, algorithms, operating systems, computer networks, Linux and Android.",
+      "My programming skills include Python, C, C++, Java, JavaScript, TypeScript and SQL, supported by strong foundations in data structures and algorithms, object-oriented programming, operating systems, computer networks and database management.",
+      "I build full-stack applications using React.js, Next.js, Tailwind CSS, Node.js, FastAPI and REST APIs, with MySQL, PostgreSQL, MongoDB and Redis. My interests also span data analysis, machine learning, NLP, speech processing, LLMs and model quantization using PyTorch, scikit-learn and Hugging Face Transformers. I work with Linux, Android, Git, GitHub, Docker and Kaggle.",
       "Led the integration of a multi-module speech and LLM assessment application at NIT Silchar. At NIT Jamshedpur, enabled 4B-parameter model inference on a free-tier 16 GB T4 GPU using 4-bit NF4 quantization.",
       "Seeking associate software engineering opportunities across systems, applied AI and full-stack development."
     ],
